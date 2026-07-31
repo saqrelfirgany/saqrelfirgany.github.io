@@ -1,240 +1,281 @@
 <!doctype html>
-<html lang="en" dir="ltr">
+<html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ahmed ElFirgany — Flutter Games</title>
-<meta name="description" content="Games built from scratch in Flutter, in public — 3D with Flutter GPU, 2D with Flame + real physics. By Ahmed 'Saqr' ElFirgany.">
+<meta name="description" content="Games built from scratch in Flutter — 3D with Flutter GPU, 2D with Flame + real physics. Playable in the browser. By Ahmed 'Saqr' ElFirgany (@saqrelfirgany).">
 <meta name="theme-color" content="#0a1020">
 <meta property="og:title" content="Ahmed ElFirgany — Flutter Games">
-<meta property="og:description" content="Games built from scratch in Flutter, in public. 3D with Flutter GPU, 2D with Flame + physics.">
+<meta property="og:description" content="Games built from scratch in Flutter — 3D with Flutter GPU, 2D with Flame + real physics. Playable in the browser.">
 <meta property="og:type" content="website">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Inter:wght@400;500;600;700&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<meta property="og:url" content="https://saqrelfirgany.github.io/">
+<meta property="og:image" content="https://saqrelfirgany.github.io/topple/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
 <style>
-:root{
-  --bg:#0a1020; --panel:#101c3a; --panel2:#0f1830;
-  --line:rgba(124,160,255,.16); --line2:rgba(124,160,255,.28);
-  --blue:#54a0ff; --sky:#9fceff; --deep:#2f7fe0; --tx:#eaf0fb; --mut:#9fb3d4; --dim:#6f83a8;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{
-  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
-  color:var(--tx); line-height:1.7; min-height:100vh; overflow-x:hidden;
-  background:
-    radial-gradient(1200px 720px at 82% -10%,rgba(84,160,255,.16),transparent 58%),
-    radial-gradient(900px 700px at 4% 106%,rgba(124,77,255,.13),transparent 60%),
-    linear-gradient(160deg,#0a1020,#0b1428 58%,#0a1222);
-  background-repeat:no-repeat;
-}
-html[dir=rtl] body{font-family:Cairo,Inter,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
-a{color:var(--blue);text-decoration:none}
-.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+  :root{
+    --bg:#0a1020; --bg2:#0c1428; --panel:#111d3a; --panel2:#0f1830;
+    --line:rgba(124,160,255,.16); --line2:rgba(124,160,255,.28);
+    --blue:#54a0ff; --sky:#9fceff; --purple:#8b6dff; --green:#5fd08a;
+    --tx:#eef3fc; --mut:#a7b8d6; --dim:#7286aa;
+    --radius:18px; --maxw:1000px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:
+      radial-gradient(1100px 620px at 78% -8%, rgba(139,109,255,.18), transparent 60%),
+      radial-gradient(900px 520px at 0% 8%, rgba(84,160,255,.16), transparent 55%),
+      var(--bg);
+    color:var(--tx);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.55; -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:22px 20px 60px}
 
-.lang{position:fixed;top:16px;inset-inline-end:16px;z-index:20;display:flex;gap:4px;
-  background:rgba(9,14,28,.7);backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:999px;padding:4px}
-.lang button{font-family:inherit;cursor:pointer;border:0;background:transparent;color:var(--mut);
-  font-weight:700;font-size:13px;padding:6px 13px;border-radius:999px;transition:.15s;min-width:40px}
-.lang button.on{background:linear-gradient(135deg,var(--blue),var(--deep));color:#04101f}
-.lang button:hover:not(.on){color:var(--tx)}
+  /* language toggle */
+  .langbar{display:flex;justify-content:flex-end;margin-bottom:8px}
+  .lang{display:inline-flex;border:1px solid var(--line2);border-radius:999px;overflow:hidden;background:rgba(255,255,255,.03)}
+  .lang button{background:none;border:0;color:var(--mut);font:inherit;font-weight:700;font-size:13px;padding:6px 14px;cursor:pointer}
+  .lang button.on{background:var(--blue);color:#04101f}
 
-.hero{text-align:center;padding:78px 0 26px}
-.mark{width:74px;height:74px;margin:0 auto 22px;border-radius:22px;display:flex;align-items:center;justify-content:center;
-  background:radial-gradient(90px 70px at 32% 24%,rgba(84,197,248,.5),transparent 70%),linear-gradient(150deg,#12224a,#0c1731);
-  border:1px solid var(--line2);box-shadow:0 14px 40px rgba(84,160,255,.24);font-size:36px}
-.hero h1{font-family:Montserrat;font-weight:900;font-size:clamp(38px,7vw,68px);letter-spacing:-.5px;color:#fff;
-  line-height:1.02;text-shadow:0 4px 40px rgba(84,160,255,.35)}
-html[dir=rtl] .hero h1{letter-spacing:0}
-.tagline{color:var(--mut);font-size:clamp(15px,2.4vw,19px);max-width:660px;margin:18px auto 0}
+  /* hero */
+  .hero{text-align:center;padding:14px 0 26px}
+  .badge{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--sky);background:rgba(84,160,255,.12);border:1px solid var(--line);border-radius:999px;padding:6px 14px}
+  .hero h1{font-size:clamp(28px,6vw,46px);line-height:1.08;margin:16px 0 6px;font-weight:800;letter-spacing:-.01em}
+  .hero .role{color:var(--sky);font-weight:700;margin-bottom:12px;font-size:clamp(14px,2.6vw,17px)}
+  .hero p{color:var(--mut);max-width:640px;margin:0 auto;font-size:clamp(14px,2.6vw,16px)}
 
-.socials{display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));gap:9px;margin:28px auto 0;max-width:748px}
-.soc{display:inline-flex;align-items:center;gap:10px;direction:ltr;background:rgba(84,160,255,.07);border:1px solid var(--line);
-  padding:10px 14px;border-radius:13px;transition:.16s}
-.soc:hover{border-color:var(--line2);background:rgba(84,160,255,.15);transform:translateY(-2px)}
-.soc svg{width:18px;height:18px;flex:none;fill:var(--c,#54a0ff)}
-.soc span{color:var(--tx);font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  /* section heads */
+  .sechead{display:flex;align-items:center;gap:14px;margin:34px 0 18px}
+  .sechead h2{font-size:clamp(18px,4vw,24px);margin:0;font-weight:800;white-space:nowrap}
+  .sechead .rule{height:1px;background:linear-gradient(90deg,var(--line2),transparent);flex:1}
+  .sechead .count{color:var(--dim);font-size:13px;font-weight:600}
 
-.section{padding:44px 0 30px}
-.eyebrow{display:flex;align-items:center;gap:14px;color:var(--blue);font-family:Montserrat;font-weight:800;
-  font-size:13px;letter-spacing:3px;text-transform:uppercase;margin-bottom:22px}
-.eyebrow::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--line2),transparent)}
-html[dir=rtl] .eyebrow::after{background:linear-gradient(270deg,var(--line2),transparent)}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(288px,1fr));gap:18px}
-.card{position:relative;background:linear-gradient(160deg,var(--panel),var(--panel2));border:1px solid var(--line);
-  border-radius:20px;padding:20px;transition:.18s;overflow:hidden;display:flex;flex-direction:column}
-.card:hover{border-color:var(--line2);transform:translateY(-4px);box-shadow:0 22px 54px rgba(0,0,0,.34)}
-.badge{position:absolute;top:16px;inset-inline-end:16px;font-size:11px;font-weight:800;letter-spacing:.6px;
-  padding:4px 11px;border-radius:999px;display:inline-flex;align-items:center;gap:6px}
-.badge.live{color:#bfe6c8;background:rgba(60,180,110,.16);border:1px solid rgba(80,200,130,.36)}
-.badge.dev{color:#ffe0a8;background:rgba(255,190,80,.14);border:1px solid rgba(255,200,120,.34)}
-.badge .blip{width:7px;height:7px;border-radius:50%;background:currentColor;animation:blip 1.6s infinite}
-@keyframes blip{0%,100%{opacity:1}50%{opacity:.3}}
-.art{height:132px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:56px;margin-bottom:16px;
-  border:1px solid var(--line);background:radial-gradient(140px 90px at 30% 22%,rgba(84,160,255,.34),transparent 72%),linear-gradient(135deg,#0c1836,#0a1226)}
-.card.g2 .art{background:radial-gradient(140px 90px at 30% 22%,rgba(255,196,107,.28),transparent 72%),linear-gradient(135deg,#0c1836,#0a1226)}
-.card h3{font-family:Montserrat;font-weight:800;font-size:21px;color:#fff;margin-bottom:7px}
-.card p{color:var(--mut);font-size:14px}
-.tags{display:flex;flex-wrap:wrap;gap:7px;margin:14px 0 16px;direction:ltr}
-.tags span{font-size:11.5px;font-weight:600;color:var(--sky);background:rgba(84,160,255,.1);border:1px solid var(--line);padding:3px 9px;border-radius:7px}
-.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:auto;padding-top:6px}
-.btn{display:inline-flex;align-items:center;gap:7px;font-weight:700;font-size:14px;padding:10px 18px;border-radius:11px;transition:.15s}
-.btn.play{background:linear-gradient(135deg,var(--blue),var(--deep));color:#04101f;border:1px solid transparent}
-.btn.play:hover{filter:brightness(1.09);transform:translateY(-1px);box-shadow:0 10px 26px rgba(84,160,255,.32)}
-.btn.src{background:transparent;color:var(--tx);border:1px solid var(--line2)}
-.btn.src:hover{background:rgba(84,160,255,.12)}
-.card.soon{border-style:dashed;background:linear-gradient(160deg,#0f1c3a,#0c1730);align-items:center;justify-content:center;text-align:center;min-height:300px}
-.card.soon .art{width:100%;opacity:.5}
-.card.soon h3,.card.soon p{color:var(--dim)}
+  /* games */
+  .games{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+  .card{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);
+    border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;
+    transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
+  .card:hover{transform:translateY(-4px);border-color:var(--line2);box-shadow:0 18px 40px -20px rgba(84,160,255,.5)}
+  .card .art{height:150px;display:flex;align-items:center;justify-content:center;font-size:64px;position:relative;overflow:hidden}
+  .card .art.topple{background:linear-gradient(150deg,#1e4074,#0b1730)}
+  .card .art.runner{background:linear-gradient(150deg,#3a2f7a,#160f30)}
+  .card .art.soon{background:linear-gradient(150deg,#16233f,#0d1526)}
+  .card .art .glow{position:absolute;inset:0;background:radial-gradient(220px 120px at 30% 20%,rgba(255,255,255,.14),transparent 70%)}
+  .live{position:absolute;top:12px;left:12px;font-size:11px;font-weight:800;letter-spacing:.08em;
+    color:#04140a;background:var(--green);border-radius:999px;padding:4px 10px;display:inline-flex;align-items:center;gap:6px}
+  .live .dot{width:6px;height:6px;border-radius:50%;background:#04140a;box-shadow:0 0 0 0 rgba(4,20,10,.6);animation:pulse 1.6s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(4,20,10,.5)}70%{box-shadow:0 0 0 7px rgba(4,20,10,0)}100%{box-shadow:0 0 0 0 rgba(4,20,10,0)}}
+  .soonbadge{position:absolute;top:12px;left:12px;font-size:11px;font-weight:800;letter-spacing:.08em;
+    color:var(--sky);background:rgba(84,160,255,.14);border:1px solid var(--line);border-radius:999px;padding:4px 10px}
+  .card .body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:10px;flex:1}
+  .card h3{margin:0;font-size:19px;font-weight:800}
+  .card .desc{color:var(--mut);font-size:14px;margin:0;flex:1}
+  .tags{display:flex;flex-wrap:wrap;gap:6px}
+  .tags span{font-size:11px;font-weight:600;color:var(--sky);background:rgba(84,160,255,.1);
+    border:1px solid var(--line);border-radius:6px;padding:3px 8px}
+  .btns{display:flex;gap:10px;margin-top:4px}
+  .btn{flex:1;text-align:center;font-weight:700;font-size:14px;padding:11px 12px;border-radius:11px;transition:filter .15s}
+  .btn:hover{filter:brightness(1.08)}
+  .btn.play{background:var(--blue);color:#04101f}
+  .btn.code{background:rgba(255,255,255,.06);color:var(--tx);border:1px solid var(--line2)}
+  .btn.wide{flex:none;width:100%}
 
-footer{text-align:center;color:var(--dim);font-size:13px;padding:38px 0 46px;margin-top:24px;border-top:1px solid var(--line)}
+  /* profiles */
+  .profiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+  .p{display:flex;align-items:center;gap:11px;background:rgba(255,255,255,.03);border:1px solid var(--line);
+    border-radius:14px;padding:12px 13px;transition:transform .15s,border-color .15s,background .15s}
+  .p:hover{transform:translateY(-2px);border-color:var(--line2);background:rgba(255,255,255,.06)}
+  .p .ic{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;flex-shrink:0;color:#fff}
+  .p .ic svg{width:20px;height:20px;fill:currentColor}
+  .p .m{min-width:0}
+  .p .m b{display:block;font-size:14px;font-weight:700;line-height:1.2}
+  .p .m span{display:block;font-size:12px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;unicode-bidi:plaintext}
 
-@media(max-width:560px){
-  .hero{padding:64px 0 18px}
-  .section{padding:32px 0 20px}
-  .btn{flex:1;justify-content:center}
-  .lang{top:12px;inset-inline-end:12px}
-}
+  footer{text-align:center;color:var(--dim);font-size:13px;margin-top:44px;padding-top:22px;border-top:1px solid var(--line)}
+  footer a{color:var(--sky)}
+
+  /* RTL */
+  html[dir="rtl"] body{font-family:'Inter','Segoe UI',Tahoma,Arial,sans-serif}
+  html[dir="rtl"] .sechead .rule{background:linear-gradient(270deg,var(--line2),transparent)}
+  html[dir="rtl"] .live,html[dir="rtl"] .soonbadge{left:auto;right:12px}
+
+  @media(max-width:560px){
+    .wrap{padding:18px 15px 48px}
+    .btns{flex-direction:column}
+    .card .art{height:128px;font-size:54px}
+  }
 </style>
 </head>
 <body>
-<div class="lang" role="group" aria-label="Language">
-  <button data-l="en">EN</button>
-  <button data-l="ar">ع</button>
-</div>
-
 <div class="wrap">
+
+  <div class="langbar">
+    <div class="lang" role="group" aria-label="language">
+      <button id="en" onclick="setLang('en')">EN</button>
+      <button id="ar" onclick="setLang('ar')">ع</button>
+    </div>
+  </div>
+
   <header class="hero">
-    <div class="mark">🎮</div>
-    <h1 data-i18n="name">Ahmed ElFirgany</h1>
-    <p class="tagline" data-i18n="tagline">Games built from scratch in Flutter — 3D with Flutter GPU, 2D with Flame + real physics. Built in public, one game at a time.</p>
-
-    <nav class="socials" aria-label="Profiles">
-      <a class="soc" style="--c:#e6ebf4" href="https://github.com/saqrelfirgany" target="_blank" rel="noopener" aria-label="GitHub">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.807 5.625-5.479 5.921.43.372.823 1.102.823 2.222 0 1.606-.014 2.898-.014 3.293 0 .319.216.694.825.576C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg><span>@saqrelfirgany</span></a>
-
-      <a class="soc" style="--c:#4aa3ff" href="https://www.linkedin.com/in/saqrelfirgany/" target="_blank" rel="noopener" aria-label="LinkedIn">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg><span>@saqrelfirgany</span></a>
-
-      <a class="soc" style="--c:#e6ebf4" href="https://dev.to/saqrelfirgany" target="_blank" rel="noopener" aria-label="dev.to">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.826 10.083a.784.784 0 00-.468-.175h-.701v4.198h.701a.786.786 0 00.469-.175c.155-.117.233-.292.233-.526v-2.798c.001-.233-.079-.408-.234-.524zM19.236 3H4.764C3.791 3 3.002 3.787 3 4.76v14.48c.002.973.791 1.76 1.764 1.76h14.472c.973 0 1.762-.787 1.764-1.76V4.76A1.765 1.765 0 0019.236 3zM9.195 13.414c0 .755-.466 1.901-1.942 1.898H5.389V8.665h1.903c1.424 0 1.902 1.144 1.903 1.899v2.85zm4.045-3.562H11.1v1.544h1.309v1.188H11.1v1.543h2.142v1.188h-2.498a.813.813 0 01-.833-.792V9.497a.813.813 0 01.792-.832h2.539l-.002 1.187zm4.165 4.632c-.531 1.235-1.481.99-1.906 0l-1.548-5.818h1.309l1.193 4.569 1.188-4.569h1.31l-1.546 5.818z"/></svg><span>@saqrelfirgany</span></a>
-
-      <a class="soc" style="--c:#e6ebf4" href="https://x.com/saqrelfirgany" target="_blank" rel="noopener" aria-label="X">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg><span>@saqrelfirgany</span></a>
-
-      <a class="soc" style="--c:#4a90ff" href="https://www.facebook.com/saqrelfirgany" target="_blank" rel="noopener" aria-label="Facebook">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg><span>@saqrelfirgany</span></a>
-
-      <a class="soc" style="--c:#e1568c" href="https://www.instagram.com/saqrelfirgany" target="_blank" rel="noopener" aria-label="Instagram">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.332.014 7.052.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg><span>@saqrelfirgany</span></a>
-
-      <a class="soc" style="--c:#e6ebf4" href="https://www.threads.net/@saqrelfirgany" target="_blank" rel="noopener" aria-label="Threads">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.589 12c.027 3.086.718 5.496 2.057 7.164 1.43 1.781 3.631 2.695 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.964-.065-1.19.408-2.285 1.33-3.082.88-.76 2.119-1.207 3.583-1.291a13.826 13.826 0 013.02.142c-.126-.742-.375-1.332-.75-1.757-.513-.586-1.308-.883-2.359-.89h-.029c-.844 0-1.992.232-2.721 1.32L7.734 7.847c.98-1.454 2.568-2.256 4.478-2.256h.044c3.194.02 5.097 1.975 5.287 5.388.108.046.216.094.324.145 1.52.715 2.632 1.797 3.217 3.132.816 1.858.89 4.883-1.575 7.293-1.882 1.84-4.166 2.666-7.031 2.687h-.012z"/></svg><span>@saqrelfirgany</span></a>
-
-      <a class="soc" style="--c:#6fb3ff" href="mailto:saqrelfirgany@gmail.com" aria-label="Email">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.493a3 3 0 01-3.144 0L1.5 8.67zM22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z"/></svg><span data-i18n="email">Email</span></a>
-
-      <a class="soc" style="--c:#3ad17f" href="https://wa.me/201025592065" target="_blank" rel="noopener" aria-label="WhatsApp">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg><span data-i18n="whatsapp">WhatsApp</span></a>
-    </nav>
+    <span class="badge" data-i="kicker">Flutter Games · Built in public</span>
+    <h1 data-i="name">Ahmed ElFirgany</h1>
+    <div class="role" data-i="role">Software Engineer · Software Developer</div>
+    <p data-i="tag">Games built from scratch in Flutter — 3D with Flutter GPU, 2D with Flame &amp; real physics. Built in public, playable right in your browser.</p>
   </header>
 
-  <main>
-    <section class="section">
-      <div class="eyebrow" data-i18n="games_title">The Games</div>
-      <div class="grid">
+  <div class="sechead">
+    <h2 data-i="gamesHead">The Games</h2>
+    <div class="rule"></div>
+    <span class="count">3</span>
+  </div>
 
-        <article class="card g1">
-          <span class="badge live"><span class="blip"></span><span data-i18n="live">LIVE</span></span>
-          <div class="art">🏃</div>
-          <h3 data-i18n="g1_title">3D Endless Runner</h3>
-          <p data-i18n="g1_desc">A 3D endless runner built entirely in Flutter with Flutter GPU and flutter_scene — perspective camera, a moving 3-lane track, jumping, obstacles, and rising speed. No game engine.</p>
-          <div class="tags"><span>Flutter GPU</span><span>flutter_scene</span><span>3D</span><span>Impeller</span></div>
-          <div class="btns">
-            <a class="btn play" href="https://saqrelfirgany.github.io/flutter-scene-runner/" target="_blank" rel="noopener">▶ <span data-i18n="play">Play</span></a>
-            <a class="btn src" href="https://github.com/saqrelfirgany/flutter-scene-runner" target="_blank" rel="noopener" data-i18n="source">Source</a>
-          </div>
-        </article>
-
-        <article class="card g2">
-          <span class="badge dev"><span class="blip"></span><span data-i18n="indev">IN DEV</span></span>
-          <div class="art">🧩</div>
-          <h3 data-i18n="g2_title">Topple</h3>
-          <p data-i18n="g2_desc">A 2D slingshot knock-down physics puzzle — fling a ball, topple the tower, clear the targets in the fewest shots. Real Box2D physics with Flame + Forge2D.</p>
-          <div class="tags"><span>Flame</span><span>Forge2D</span><span>Box2D</span><span>2D</span></div>
-          <div class="btns">
-            <a class="btn play" href="https://saqrelfirgany.github.io/topple/" target="_blank" rel="noopener">▶ <span data-i18n="play">Play</span></a>
-            <a class="btn src" href="https://github.com/saqrelfirgany/topple" target="_blank" rel="noopener" data-i18n="source">Source</a>
-          </div>
-        </article>
-
-        <article class="card soon">
-          <div class="art">🕹️</div>
-          <h3 data-i18n="more_title">More games in progress</h3>
-          <p data-i18n="more_desc">Building in public — new Flutter games land here as they ship. Follow along on GitHub and X.</p>
-        </article>
-
+  <div class="games">
+    <!-- Topple -->
+    <article class="card">
+      <div class="art topple">
+        <span class="live"><span class="dot"></span><span data-i="live">LIVE</span></span>
+        <span class="glow"></span>🏹
       </div>
-    </section>
-  </main>
+      <div class="body">
+        <h3>Topple</h3>
+        <p class="desc" data-i="toppleDesc">A bow-and-arrow knock-down physics game — draw, loose, and topple the targets across 13 hand-built levels.</p>
+        <div class="tags"><span>Flame</span><span>Forge2D</span><span>Box2D</span><span>2D physics</span></div>
+        <div class="btns">
+          <a class="btn play" data-i="play" href="https://saqrelfirgany.github.io/topple/" target="_blank" rel="noopener">Play</a>
+          <a class="btn code" data-i="code" href="https://github.com/saqrelfirgany/topple" target="_blank" rel="noopener">Code</a>
+        </div>
+      </div>
+    </article>
 
-  <footer><span data-i18n="footer">Built with Flutter · by Ahmed "Saqr" ElFirgany · @saqrelfirgany</span></footer>
+    <!-- Runner -->
+    <article class="card">
+      <div class="art runner">
+        <span class="live"><span class="dot"></span><span data-i="live">LIVE</span></span>
+        <span class="glow"></span>🏃‍♂️
+      </div>
+      <div class="body">
+        <h3 data-i="runnerName">3D Endless Runner</h3>
+        <p class="desc" data-i="runnerDesc">A 3D endless runner rendered with Flutter GPU and flutter_scene — real 3D, no game engine, just Flutter.</p>
+        <div class="tags"><span>Flutter GPU</span><span>flutter_scene</span><span>Impeller</span><span>3D</span></div>
+        <div class="btns">
+          <a class="btn play" data-i="play" href="https://saqrelfirgany.github.io/flutter-scene-runner/" target="_blank" rel="noopener">Play</a>
+          <a class="btn code" data-i="code" href="https://github.com/saqrelfirgany/flutter-scene-runner" target="_blank" rel="noopener">Code</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- Soon -->
+    <article class="card">
+      <div class="art soon">
+        <span class="soonbadge" data-i="soonBadge">SOON</span>
+        <span class="glow"></span>🎮
+      </div>
+      <div class="body">
+        <h3 data-i="soonName">More on the way</h3>
+        <p class="desc" data-i="soonDesc">New games ship regularly — each built in public. Follow along on GitHub and X to catch the next one.</p>
+        <div class="tags"><span>Flutter</span><span>Flame</span><span>Flutter GPU</span></div>
+        <div class="btns">
+          <a class="btn code wide" data-i="follow" href="https://github.com/saqrelfirgany" target="_blank" rel="noopener">Follow the builds</a>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <div class="sechead">
+    <h2 data-i="profilesHead">Find me</h2>
+    <div class="rule"></div>
+    <span class="count">@saqrelfirgany</span>
+  </div>
+
+  <div class="profiles" id="profiles"></div>
+
+  <footer>
+    © <span id="yr">2026</span> <span data-i="copyr">Ahmed ElFirgany</span>
+  </footer>
 </div>
 
 <script>
-const I18N = {
-  en: {
-    name: "Ahmed ElFirgany",
-    tagline: "Games built from scratch in Flutter — 3D with Flutter GPU, 2D with Flame + real physics. Built in public, one game at a time.",
-    games_title: "The Games",
-    g1_title: "3D Endless Runner",
-    g1_desc: "A 3D endless runner built entirely in Flutter with Flutter GPU and flutter_scene — perspective camera, a moving 3-lane track, jumping, obstacles, and rising speed. No game engine.",
-    g2_title: "Topple",
-    g2_desc: "A 2D slingshot knock-down physics puzzle — fling a ball, topple the tower, clear the targets in the fewest shots. Real Box2D physics with Flame + Forge2D.",
-    more_title: "More games in progress",
-    more_desc: "Building in public — new Flutter games land here as they ship. Follow along on GitHub and X.",
-    play: "Play", source: "Source", live: "LIVE", indev: "IN DEV",
-    email: "Email", whatsapp: "WhatsApp",
-    footer: "Built with Flutter · by Ahmed \"Saqr\" ElFirgany · @saqrelfirgany"
-  },
-  ar: {
-    name: "أحمد الفرجاني",
-    tagline: "ألعاب مبنية من الصفر بـ Flutter — ثلاثية الأبعاد بـ Flutter GPU، وثنائية الأبعاد بـ Flame مع فيزياء حقيقية. أطوّرها مباشرةً أمام الجميع، لعبة تلو الأخرى.",
-    games_title: "الألعاب",
-    g1_title: "عدّاء لا نهائي ثلاثي الأبعاد",
-    g1_desc: "لعبة عدّاء لا نهائي مبنية بالكامل بـ Flutter باستخدام Flutter GPU و flutter_scene — كاميرا بمنظور، مسار من ٣ حارات، قفز وعوائق، وسرعة متصاعدة. بدون أي محرّك ألعاب جاهز.",
-    g2_title: "Topple",
-    g2_desc: "لغز فيزياء ثنائي الأبعاد بالمقلاع — اقذف الكرة، اهدم البرج، وأسقِط كل الأهداف بأقل عدد من القذفات. فيزياء Box2D حقيقية بـ Flame و Forge2D.",
-    more_title: "ألعاب جديدة في الطريق",
-    more_desc: "أبني مباشرةً — وكل لعبة Flutter جديدة تنزل هنا فور اكتمالها. تابِعني على GitHub و X.",
-    play: "العب", source: "الكود", live: "مباشر", indev: "قيد التطوير",
-    email: "البريد", whatsapp: "واتساب",
-    footer: "مبني بـ Flutter · أحمد «صقر» الفرجاني · @saqrelfirgany"
+  // --- brand icons (inline SVG) ---
+  var ICON = {
+    github:'<svg viewBox="0 0 24 24"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.6.1-3.2 0 0 1-.3 3.3 1.2a11 11 0 0 1 6 0C17 4.7 18 5 18 5c.6 1.6.2 2.9.1 3.2.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.3v3.3c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>',
+    linkedin:'<svg viewBox="0 0 24 24"><path d="M4.98 3.5A2.5 2.5 0 1 1 0 3.5a2.5 2.5 0 0 1 4.98 0zM0 8.5h5V24H0zM8 8.5h4.8v2.1h.1c.7-1.3 2.3-2.6 4.7-2.6 5 0 6 3.3 6 7.6V24h-5v-6.8c0-1.6 0-3.7-2.3-3.7s-2.6 1.8-2.6 3.6V24H8z"/></svg>',
+    x:'<svg viewBox="0 0 24 24"><path d="M18.9 2H22l-7.6 8.7L23 22h-6.8l-5.3-6.9L4.8 22H1.7l8.2-9.4L1 2h7l4.8 6.4L18.9 2zm-2.4 18h1.9L7.6 4H5.6l10.9 16z"/></svg>',
+    devto:'<svg viewBox="0 0 24 24"><path d="M7.4 7.9c-.3-.2-.6-.3-.9-.3H5.4v8.8h1.1c.3 0 .6-.1.9-.3.3-.2.4-.5.4-.9V9.1c0-.4-.1-.7-.4-.9zm3.9-.3c-.4 0-.8.1-1.1.4-.3.3-.5.7-.5 1.1v5.8c0 .4.2.8.5 1.1.3.3.7.4 1.1.4h4.6v-1.6h-4v-1.8h2.5v-1.6h-2.5V9.2h4V7.6zM3 2h18a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zm19 6.8c0-.9-.3-1.7-1-2.3s-1.5-.9-2.4-.9c-.9 0-1.7.3-2.3.9V6h-1.6v9.3c0 .9.3 1.7 1 2.3s1.5.9 2.4.9c.9 0 1.7-.3 2.3-.9.7-.6 1-1.4 1-2.3z"/></svg>',
+    facebook:'<svg viewBox="0 0 24 24"><path d="M24 12a12 12 0 1 0-13.9 11.9v-8.4H7.1V12h3V9.4c0-3 1.8-4.6 4.5-4.6 1.3 0 2.6.2 2.6.2v2.9h-1.5c-1.5 0-1.9.9-1.9 1.8V12h3.3l-.5 3.5h-2.8v8.4A12 12 0 0 0 24 12z"/></svg>',
+    instagram:'<svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.3 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.3 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.3-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.3-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4 1.3-.1 1.7-.1 4.9-.1zm0 3.6A6.2 6.2 0 1 0 18.2 12 6.2 6.2 0 0 0 12 5.8zm0 10.2A4 4 0 1 1 16 12a4 4 0 0 1-4 4zm6.4-10.5a1.44 1.44 0 1 1-1.4-1.4 1.44 1.44 0 0 1 1.4 1.4z"/></svg>',
+    threads:'<svg viewBox="0 0 24 24"><path d="M16.7 11.2c-.1 0-.2-.1-.3-.1-.2-3-1.8-4.7-4.5-4.7-1.6 0-3 .7-3.8 2l1.5 1c.6-.9 1.5-1.1 2.3-1.1 1.4 0 2.4.9 2.6 2.4-.7-.2-1.4-.3-2.2-.2-2.2.1-3.7 1.4-3.6 3.3.1 1.9 1.8 2.9 3.5 2.8 2.2-.1 3.4-1.6 3.6-3.5.7.4 1.2 1 1.4 1.8.4 1.3-.4 3.3-2.9 3.9-2.2.5-4.6-.1-5.9-2-.9-1.3-1.2-3-1.2-4.6 0-1.6.3-3.3 1.2-4.6C9.4 5.9 11 5.2 12.9 5.2c2 0 3.5.7 4.5 2.1.5.6.8 1.4 1 2.2l1.8-.5c-.3-1.1-.7-2.1-1.4-3-1.3-1.8-3.4-2.8-6-2.8-2.5 0-4.6 1-5.9 2.8C5.5 8 5 10 5 12s.5 4 1.7 5.6c1.3 1.9 3.4 2.9 6 2.8 2.9-.1 5.2-1.6 5.9-4.1.5-1.7-.1-3.6-1.9-5.1zm-4.4 4.4c-1 .1-1.9-.4-1.9-1.2 0-.6.5-1.2 1.9-1.3.6 0 1.2 0 1.7.1-.1 1.5-.8 2.3-1.7 2.4z"/></svg>',
+    whatsapp:'<svg viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.6.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-1.8-.9-3-1.6-4.2-3.6-.3-.5.3-.5.9-1.6.1-.2 0-.4 0-.5-.1-.1-.6-1.5-.9-2-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.9.9-1.1 2.1-.4 3.4 1.4 2.5 3 4.3 5.6 5.4 2 .8 2.4.7 2.9.6.7-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3zM12 2a10 10 0 0 0-8.6 15L2 22l5.1-1.4A10 10 0 1 0 12 2zm6 14.4c-.3.9-1.7 1.6-2.4 1.7-.6.1-1.4.1-2.3-.1-.5-.2-1.2-.4-2.1-.8-3.6-1.6-6-5.3-6.2-5.5-.2-.2-1.5-2-1.5-3.8s.9-2.7 1.3-3.1c.3-.4.7-.4 1-.4h.7c.2 0 .5 0 .8.6.3.7 1 2.4 1.1 2.5.1.2.1.4 0 .6-.6 1.2-1.3 1.1-.9 1.8 1.4 2.4 2.6 3.2 4.7 4.1.3.1.6.1.8-.1.2-.2.9-1.1 1.2-1.4.2-.4.5-.3.8-.2.3.1 2 .9 2.3 1.1.3.2.5.2.6.3.1.3.1.9-.2 1.8z"/></svg>',
+    email:'<svg viewBox="0 0 24 24"><path d="M2 4h20a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm10 7L3 6.2V18h18V6.2L12 11z"/></svg>'
+  };
+  var PROFILES = [
+    {k:'github',   n:'GitHub',    h:'@saqrelfirgany', u:'https://github.com/saqrelfirgany',            c:'#22303f'},
+    {k:'linkedin', n:'LinkedIn',  h:'@saqrelfirgany', u:'https://www.linkedin.com/in/saqrelfirgany/',  c:'#0A66C2'},
+    {k:'x',        n:'X',         h:'@saqrelfirgany', u:'https://x.com/saqrelfirgany',                 c:'#111'},
+    {k:'devto',    n:'dev.to',    h:'@saqrelfirgany', u:'https://dev.to/saqrelfirgany',                c:'#111'},
+    {k:'facebook', n:'Facebook',  h:'@saqrelfirgany', u:'https://www.facebook.com/saqrelfirgany',      c:'#0866FF'},
+    {k:'instagram',n:'Instagram', h:'@saqrelfirgany', u:'https://www.instagram.com/saqrelfirgany',     c:'#c13584'},
+    {k:'threads',  n:'Threads',   h:'@saqrelfirgany', u:'https://www.threads.net/@saqrelfirgany',      c:'#111'},
+    {k:'whatsapp', n:'WhatsApp',  h:'+20 102 559 2065', u:'https://wa.me/201025592065',                c:'#25D366'},
+    {k:'email',    n:'Email',     h:'saqrelfirgany@gmail.com', u:'mailto:saqrelfirgany@gmail.com',      c:'#c5533f'}
+  ];
+  document.getElementById('profiles').innerHTML = PROFILES.map(function(p){
+    return '<a class="p" href="'+p.u+'" target="_blank" rel="noopener" aria-label="'+p.n+'">'+
+      '<span class="ic" style="background:'+p.c+'">'+ICON[p.k]+'</span>'+
+      '<span class="m"><b>'+p.n+'</b><span>'+p.h+'</span></span></a>';
+  }).join('');
+
+  // --- i18n ---
+  var I18N = {
+    en:{
+      kicker:'Flutter Games · Built in public',
+      name:'Ahmed ElFirgany',
+      role:'Software Engineer · Software Developer',
+      tag:'Games built from scratch in Flutter — 3D with Flutter GPU, 2D with Flame & real physics. Built in public, playable right in your browser.',
+      gamesHead:'The Games', live:'LIVE', play:'Play', code:'Code',
+      toppleDesc:'A bow-and-arrow knock-down physics game — draw, loose, and topple the targets across 13 hand-built levels.',
+      runnerName:'3D Endless Runner',
+      runnerDesc:'A 3D endless runner rendered with Flutter GPU and flutter_scene — real 3D, no game engine, just Flutter.',
+      soonBadge:'SOON', soonName:'More on the way',
+      soonDesc:'New games ship regularly — each built in public. Follow along on GitHub and X to catch the next one.',
+      follow:'Follow the builds',
+      profilesHead:'Find me', copyr:'Ahmed ElFirgany'
+    },
+    ar:{
+      kicker:'ألعاب Flutter · بأبنيها مباشر',
+      name:'أحمد الفرجاني',
+      role:'مهندس سوفت وير · مطوّر برمجيات',
+      tag:'ألعاب مبنية من الصفر بـFlutter — ثلاثية الأبعاد بـFlutter GPU، وثنائية الأبعاد بـFlame وفيزياء حقيقية. بأبنيها مباشر، وتلعبها من المتصفح على طول.',
+      gamesHead:'الألعاب', live:'مباشر', play:'العب', code:'الكود',
+      toppleDesc:'لعبة قوس وسهم بفيزياء حقيقية — صوّب، أطلق، ووقّع الأهداف عبر ١٣ مرحلة مصمّمة بإيد.',
+      runnerName:'عدّاء ثلاثي الأبعاد',
+      runnerDesc:'لعبة جري لا نهائية ثلاثية الأبعاد بـFlutter GPU وflutter_scene — ثري-دي حقيقي، من غير محرّك ألعاب، Flutter بس.',
+      soonBadge:'قريبًا', soonName:'المزيد في الطريق',
+      soonDesc:'ألعاب جديدة بتنزل باستمرار — كل واحدة تتبني مباشر. تابع على GitHub وX عشان تلحق اللي جاي.',
+      follow:'تابع البناء',
+      profilesHead:'تابعني', copyr:'أحمد الفرجاني'
+    }
+  };
+  function setLang(l){
+    var t=I18N[l]; if(!t) return;
+    document.documentElement.lang=l;
+    document.documentElement.dir = l==='ar' ? 'rtl':'ltr';
+    document.querySelectorAll('[data-i]').forEach(function(el){
+      var k=el.getAttribute('data-i'); if(t[k]!=null) el.textContent=t[k];
+    });
+    document.getElementById('en').classList.toggle('on', l==='en');
+    document.getElementById('ar').classList.toggle('on', l==='ar');
+    try{ localStorage.setItem('lang', l); }catch(e){}
   }
-};
-function apply(lang){
-  if(!I18N[lang]) lang = "en";
-  const t = I18N[lang];
-  const h = document.documentElement;
-  h.lang = lang; h.dir = lang === "ar" ? "rtl" : "ltr";
-  document.querySelectorAll("[data-i18n]").forEach(function(el){
-    const k = el.getAttribute("data-i18n");
-    if(t[k] != null) el.textContent = t[k];
-  });
-  document.querySelectorAll(".lang button").forEach(function(b){
-    b.classList.toggle("on", b.dataset.l === lang);
-  });
-  try{ localStorage.setItem("lang", lang); }catch(e){}
-}
-function detect(){
-  try{ const s = localStorage.getItem("lang"); if(s) return s; }catch(e){}
-  return (navigator.language || "en").toLowerCase().indexOf("ar") === 0 ? "ar" : "en";
-}
-document.querySelectorAll(".lang button").forEach(function(b){
-  b.addEventListener("click", function(){ apply(b.dataset.l); });
-});
-apply(detect());
+  (function(){
+    var saved; try{ saved=localStorage.getItem('lang'); }catch(e){}
+    var lang = saved || ((navigator.language||'en').toLowerCase().indexOf('ar')===0 ? 'ar':'en');
+    setLang(lang);
+  })();
+  try{ document.getElementById('yr').textContent = new Date().getFullYear(); }catch(e){}
 </script>
 </body>
 </html>
