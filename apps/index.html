@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ahmed ElFirgany — App Catalogue</title>
+<meta name="description" content="Production mobile apps built by Ahmed ElFirgany — Senior Flutter Developer. 15+ apps, 600K+ downloads, five countries.">
+<meta property="og:title" content="Ahmed ElFirgany — App Catalogue">
+<meta property="og:description" content="15+ production apps across five countries. Every one with the problem it solved and a link you can open.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://saqrelfirgany.github.io/apps/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/shell.css">
+</head>
+<body>
+
+<header class="bar" id="bar"></header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <div class="eyebrow" data-s="role"></div>
+      <h1 data-p="tagline"></h1>
+      <div class="prow" id="prow"></div>
+      <p class="lead" data-p="intro"></p>
+      <div class="hstats" id="hstats"></div>
+    </div>
+    <div class="strip"><div class="track" id="track"></div></div>
+  </section>
+  <div id="apps"></div>
+  <section class="cross"><div class="wrap"><div class="crossbox" id="crossbox"></div></div></section>
+</main>
+
+<footer id="foot"></footer>
+
+<script src="/assets/shell.js"></script>
+<script src="data.js"></script>
+<script>
+(function(){
+  var S = SHELL;
+  // الفروق بين التطبيقات والألعاب — الرندرر نفسه في shell.js.
+  var opts = {
+    fb: function(a){ return S.esc(S.txt(a.name).slice(0,2)); },
+    icon: function(a, where){
+      var init = S.esc(S.txt(a.name).slice(0,2));
+      if(where === 'card')
+        return a.icon ? '<img src="'+a.icon+'" alt="" loading="lazy" data-fb="'+init+'">'
+                      : '<div class="ph">'+init+'</div>';
+      return a.icon ? '<img class="ic" src="'+a.icon+'" alt="" loading="lazy" data-fb="'+init+'">'
+                    : '<div class="icph">'+init+'</div>';
+    },
+    sub:   function(a){ return S.esc(a.year)+' &middot; '+a.flag; },
+    chips: function(a){ return '<span class="chip">'+S.esc(a.year)+'</span>'; },
+    links: function(a){
+      if(a.internal) return '<div class="privnote">'+S.t('internal')+'</div>';
+      return (a.links||[]).map(function(k){
+        var lbl = k.label ? S.txt(k.label) : S.t(k.t);
+        var ico = k.t==='play' ? ICON.play : (k.t==='ios' ? ICON.ios : ICON.globe);
+        return '<a class="btn pri" href="'+k.u+'" target="_blank" rel="noopener">'+ico+lbl+'</a>';
+      }).join('');
+    }
+  };
+  S.mount({
+    active:'apps', title:PAGE.title, fine:PAGE.fine,
+    draw: function(){
+      S.hero(APPS, opts);
+      document.getElementById('apps').innerHTML = S.sections(APPS, opts);
+      S.cross();
+    }
+  });
+})();
+</script>
+</body>
+</html>

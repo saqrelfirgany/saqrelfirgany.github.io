@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ahmed ElFirgany — Flutter Games</title>
+<meta name="description" content="Games built from scratch in Flutter by Ahmed ElFirgany — a 3D endless runner on Flutter GPU and a Box2D physics game. Playable in your browser.">
+<meta property="og:title" content="Ahmed ElFirgany — Flutter Games">
+<meta property="og:description" content="Two games running in your browser right now. Real 3D on the GPU, and real Box2D physics. No game engine.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://saqrelfirgany.github.io/games/">
+<meta property="og:image" content="https://saqrelfirgany.github.io/games/shots/topple-1.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/shell.css">
+</head>
+<body>
+
+<header class="bar" id="bar"></header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <div class="eyebrow" data-s="role"></div>
+      <h1 data-p="tagline"></h1>
+      <div class="prow" id="prow"></div>
+      <p class="lead" data-p="intro"></p>
+      <div class="hstats" id="hstats"></div>
+    </div>
+    <div class="strip"><div class="track" id="track"></div></div>
+  </section>
+  <div id="games"></div>
+  <section class="cross"><div class="wrap"><div class="crossbox" id="crossbox"></div></div></section>
+</main>
+
+<footer id="foot"></footer>
+
+<script src="/assets/shell.js"></script>
+<script src="data.js"></script>
+<script>
+(function(){
+  var S = SHELL;
+  var opts = {
+    wide: true,
+    fb:    function(a){ return a.flag; },
+    icon:  function(a, where){
+      return where==='card' ? '<div class="ph">'+a.flag+'</div>'
+                            : '<div class="icph">'+a.flag+'</div>';
+    },
+    sub:   function(a){ return S.esc(a.year); },
+    chips: function(a){
+      return '<span class="chip'+(a.soon?'':' live')+'">'+(a.soon?S.t('soon'):S.t('live'))+'</span>';
+    },
+    links: function(a){
+      return (a.links||[]).map(function(k){
+        var pri = k.t==='run';
+        return '<a class="btn'+(pri?' pri':'')+'" href="'+k.u+'" target="_blank" rel="noopener">'+
+               (pri?ICON.run:ICON.github)+S.t(k.t)+'</a>';
+      }).join('');
+    }
+  };
+  S.mount({
+    active:'games', title:PAGE.title, fine:PAGE.fine,
+    draw: function(){
+      S.hero(GAMES, opts);
+      document.getElementById('games').innerHTML = S.sections(GAMES, opts);
+      S.cross();
+    }
+  });
+})();
+</script>
+</body>
+</html>

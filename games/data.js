@@ -27,7 +27,7 @@ window.GAMES = [
   hard:{en:"Flutter has no 3D engine. The scene graph, the render loop and the post-processing had to be written by hand, and the whole thing still has to hit the screen refresh rate.",
         ar:"فلاتر مالهاش محرك ثري-دي. مخطط المشهد وحلقة الرسم والمعالجة البعدية اتكتبوا بالإيد, ومع ذلك لازم كله يلحق سرعة تحديث الشاشة."},
   tech:["Flutter master","Flutter GPU / Impeller","flutter_scene","Dart 3"],
-  links:[{t:"play",u:"https://saqrelfirgany.github.io/flutter-scene-runner/"},
+  links:[{t:"run",u:"https://saqrelfirgany.github.io/flutter-scene-runner/"},
          {t:"code",u:"https://github.com/saqrelfirgany/flutter-scene-runner"}],
   icon:"",
   shots:["shots/runner-1.jpg","shots/runner-2.jpg","shots/runner-3.jpg"] },
@@ -56,7 +56,7 @@ window.GAMES = [
   hard:{en:"The trajectory preview and the actual physics have to agree exactly. Two different gravity models would make the game feel like it lies to you.",
         ar:"معاينة المسار والفيزياء الحقيقية لازم يتفقوا بالظبط. نموذجين جاذبية مختلفين بيخلوا اللعبة كأنها بتكدب عليك."},
   tech:["Flutter stable","Flame","flame_forge2d","Box2D"],
-  links:[{t:"play",u:"https://saqrelfirgany.github.io/topple/"},
+  links:[{t:"run",u:"https://saqrelfirgany.github.io/topple/"},
          {t:"code",u:"https://github.com/saqrelfirgany/topple"}],
   icon:"",
   shots:["shots/topple-1.jpg"] },
@@ -76,9 +76,9 @@ window.GAMES = [
   icon:"", shots:[], soon:true }
 ];
 
-window.SITE = {
-  name:{en:"Ahmed ElFirgany", ar:"أحمد الفرجاني"},
-  role:{en:"Senior Flutter Developer & Mobile Software Engineer", ar:"مطور فلاتر سنيور ومهندس برمجيات موبايل"},
+/* النص الخاص بصفحة الألعاب. المشترك في /assets/shell.js. */
+window.PAGE = {
+  title:{en:"Ahmed ElFirgany — Flutter Games", ar:"أحمد الفرجاني — ألعاب فلاتر"},
   tagline:{en:"Games built in Flutter. No engine.", ar:"ألعاب مبنية بفلاتر. من غير محرك."},
   intro:{en:"Two games running in your browser right now — a 3D endless runner drawn straight on the graphics card, and a physics game on real Box2D. Both built from scratch, in public, in Flutter.",
          ar:"لعبتين شغالين في متصفحك دلوقتي — عدّاء ثلاثي الأبعاد بيترسم على كارت الشاشة مباشرة, ولعبة فيزياء على Box2D حقيقي. الاتنين مبنيين من الصفر, في العلن, بفلاتر."},
@@ -86,21 +86,13 @@ window.SITE = {
          {v:"13", l:{en:"hand-built levels",ar:"مرحلة مصممة بإيد"}},
          {v:"39", l:{en:"stars",ar:"نجمة"}},
          {v:"0", l:{en:"game engines used",ar:"محركات ألعاب"}}],
-  links:{ github:"https://github.com/saqrelfirgany",
-          linkedin:"https://www.linkedin.com/in/saqrelfirgany/",
-          apps:"https://saqrelfirgany.github.io/apps-catalogue/",
-          games:"https://saqrelfirgany.github.io",
-          mail:"mailto:saqrelfirgany@gmail.com" }
+  fine:{en:"Screenshots are from the games themselves.", ar:"الصور من اللعب نفسه."},
+  cross:{
+    eyebrow:{en:"The other half", ar:"النص التاني"},
+    h:{en:"The production apps", ar:"التطبيقات اللي نزلت فعلا"},
+    p:{en:"The games are the experiment. The catalogue is the shipped work — 15+ apps across five countries, each with the problem it solved and a store link you can open right now.",
+       ar:"الألعاب هي التجربة. الكتالوج هو الشغل اللي نزل — أكتر من ١٥ تطبيق في خمس دول, كل واحد ومعاه المشكلة اللي حلها ولينك متجر تقدر تفتحه دلوقتي."},
+    btn:{en:"Open the app catalogue", ar:"افتح كتالوج التطبيقات"},
+    to:"apps"
+  }
 };
-
-// البروفايلات — نفس القايمة بالظبط في الكتالوج. أي تغيير هنا يتعمل هناك.
-window.PROFILES = [
-  {k:'github',    n:'GitHub',    h:'@saqrelfirgany',           u:'https://github.com/saqrelfirgany'},
-  {k:'linkedin',  n:'LinkedIn',  h:'@saqrelfirgany',           u:'https://www.linkedin.com/in/saqrelfirgany/'},
-  {k:'x',         n:'X',         h:'@saqrelfirgany',           u:'https://x.com/saqrelfirgany'},
-  {k:'devto',     n:'dev.to',    h:'@saqrelfirgany',           u:'https://dev.to/saqrelfirgany'},
-  {k:'facebook',  n:'Facebook',  h:'@saqrelfirgany',           u:'https://www.facebook.com/saqrelfirgany'},
-  {k:'instagram', n:'Instagram', h:'@saqrelfirgany',           u:'https://www.instagram.com/saqrelfirgany'},
-  {k:'threads',   n:'Threads',   h:'@saqrelfirgany',           u:'https://www.threads.net/@saqrelfirgany'},
-  {k:'email',     n:'Email',     h:'saqrelfirgany@gmail.com',  u:'mailto:saqrelfirgany@gmail.com'}
-];
