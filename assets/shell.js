@@ -8,8 +8,10 @@
 
 window.SITE = {
   name:{en:"Ahmed ElFirgany", ar:"أحمد الفرجاني"},
-  role:{en:"Senior Flutter Developer & Mobile Software Engineer",
-        ar:"مطور فلاتر سنيور ومهندس برمجيات موبايل"},
+  /* سطر الدور مقفول في الهوية (قاعدة ٤) وهو نفسه على لينكدإن وجيت هب
+     وكل البروفايلات: Software Engineer | Mobile Expert */
+  role:{en:"Software Engineer · Mobile Expert · Trusted tech partner",
+        ar:"مهندس سوفت وير · خبير تطوير تطبيقات الموبايل · شريك تقني موثوق"},
   links:{
     home:  "/",
     apps:  "/apps/",
@@ -56,18 +58,18 @@ window.SHELL_T = {
        "noshot":"No gallery for this one.",
        "internal":"Internal system — it runs inside the client's company, so there is no public store page.",
        "live":"Live", "soon":"In progress",
-       "cta.h":"Want something like this built for you?",
-       "cta.p":"The fastest way to judge the work is to open one. Every link is live.",
-       "cta.mail":"Email me", "cta.upd":"Updated" },
+       "cta.h":"Have something you need built properly?",
+       "cta.p":"Send me what you are trying to ship and what is in your way. If it is a fit I will tell you how I would build it — and if it is not, I will tell you that too.",
+       "cta.mail":"Email me", "cta.upd":"Updated", "foot.find":"Find me" },
   ar:{ "nav.home":"الرئيسية", "nav.apps":"التطبيقات", "nav.games":"الألعاب",
        "gallery":"صور", "did":"اللي عملته", "hard":"الجزء الصعب",
        "open":"افتح", "play":"جوجل بلاي", "ios":"آب ستور", "run":"العب", "code":"الكود",
        "noshot":"مفيش معرض صور للحاجة دي.",
        "internal":"نظام داخلي — بيشتغل جوه شركة العميل, فمالوش صفحة على متجر عام.",
        "live":"شغالة", "soon":"تحت الشغل",
-       "cta.h":"عايز حاجة زي دي تتبني ليك؟",
-       "cta.p":"أسرع طريقة تحكم على الشغل إنك تفتح واحدة. كل اللينكات شغالة.",
-       "cta.mail":"كلمني", "cta.upd":"آخر تحديث" }
+       "cta.h":"عندك حاجة محتاجة تتبني صح؟",
+       "cta.p":"ابعتلي انت عايز تنزل إيه وإيه اللي واقف قدامك. لو الشغل مناسب هقولك هبنيه إزاي, ولو مش مناسب هقولك كده برضه.",
+       "cta.mail":"كلمني", "cta.upd":"آخر تحديث", "foot.find":"تلاقيني هنا" }
 };
 
 window.BUILT = '2026-08-04';
@@ -115,37 +117,54 @@ window.SHELL = (function(){
   }
 
   function foot(fine){
+    var links = PROFILES.map(function(p){
+      return '<a href="'+p.u+'" target="_blank" rel="noopener">'+ICON[p.k]+
+             '<span>'+p.n+'</span></a>';
+    }).join('');
+    var secs = [['home',SITE.links.home],['apps',SITE.links.apps],['games',SITE.links.games]]
+      .map(function(it){ return '<a href="'+href(it[1])+'">'+t('nav.'+it[0])+'</a>'; }).join('') +
+      '<a href="'+SITE.links.github+'" target="_blank" rel="noopener">GitHub</a>';
     return '<div class="wrap">'+
-      '<h2>'+t('cta.h')+'</h2><p>'+t('cta.p')+'</p>'+
-      '<div class="btns">'+
-        '<a class="btn pri" href="'+SITE.links.mail+'">'+t('cta.mail')+'</a>'+
-        '<a class="btn" href="'+href(SITE.links.apps)+'">'+t('nav.apps')+'</a>'+
-        '<a class="btn" href="'+href(SITE.links.games)+'">'+t('nav.games')+'</a>'+
-        '<a class="btn" href="'+SITE.links.linkedin+'" target="_blank" rel="noopener">LinkedIn</a>'+
-        '<a class="btn" href="'+SITE.links.github+'" target="_blank" rel="noopener">GitHub</a>'+
+      '<div class="ftop">'+
+        '<div>'+
+          '<h2>'+t('cta.h')+'</h2><p>'+t('cta.p')+'</p>'+
+          '<div class="btns">'+
+            '<a class="btn pri" href="'+SITE.links.mail+'">'+ICON.email+t('cta.mail')+'</a>'+
+            '<a class="btn" href="'+SITE.links.linkedin+'" target="_blank" rel="noopener">'+ICON.linkedin+'LinkedIn</a>'+
+          '</div>'+
+          '<div class="fnav">'+secs+'</div>'+
+        '</div>'+
+        '<div class="fcol"><h3>'+t('foot.find')+'</h3><div class="flinks">'+links+'</div></div>'+
       '</div>'+
-      '<div class="fine"><span>'+(fine||'')+'</span>'+
-        '<span>'+t('cta.upd')+' <span class="d8">'+BUILT+'</span></span></div>'+
+      '<div class="fine">'+
+        '<span>'+(fine||'')+'</span>'+
+        '<span><b>'+esc(txt(SITE.name))+'</b> &middot; '+t('cta.upd')+
+          ' <span class="d8">'+BUILT+'</span></span>'+
+      '</div>'+
     '</div>';
   }
 
-  /* معرض بيتحرك لوحده وبيقف أول ما تلمسه, وبيفضل سكرولر حقيقي تقدر تسحبه. */
+  /* المعرض بيلف لوحده لفة مستمرة من غير ما يرجع لورا: الصور بتتكرر مرتين,
+     ولما اللفة توصل نص العرض بنطرح النص — النطة مش بتتشاف لأن الشكل هو
+     هو. بيقف أول ما تلمسه أو تسحبه, وبيفضل سكرولر حقيقي فتقدر تمسك صورة
+     معينة وتبص عليها — ده اللي منعني أعملها بأنيميشن CSS. */
   function autoScroll(g){
     var dir = (document.documentElement.dir === 'rtl') ? -1 : 1;
     var paused=false, raf=0, acc=0;
-    function max(){ return g.scrollWidth - g.clientWidth; }
+    var half = g.scrollWidth/2;
     function hold(ms){ paused=true; clearTimeout(g._t); g._t=setTimeout(function(){ paused=false; }, ms); }
     ['pointerenter','focusin'].forEach(function(e){ g.addEventListener(e,function(){ paused=true; clearTimeout(g._t); }); });
-    ['pointerleave','focusout'].forEach(function(e){ g.addEventListener(e,function(){ hold(600); }); });
-    g.addEventListener('wheel', function(){ hold(3000); }, {passive:true});
-    g.addEventListener('touchstart', function(){ hold(4000); }, {passive:true});
+    ['pointerleave','focusout'].forEach(function(e){ g.addEventListener(e,function(){ hold(500); }); });
+    g.addEventListener('wheel', function(){ hold(2500); }, {passive:true});
+    g.addEventListener('touchstart', function(){ hold(3500); }, {passive:true});
     function step(){
       raf=requestAnimationFrame(step);
-      if(paused || max()<=4) return;
-      acc+=0.55; if(acc<1) return;
+      if(paused || half<=4) return;
+      acc += 1.15;                      // ~٦٩ بكسل في الثانية — بيبان إنه ماشي
+      if(acc<1) return;
       var by=Math.floor(acc); acc-=by;
-      if(Math.abs(g.scrollLeft) >= max()-1){ g.scrollTo({left:0,behavior:'smooth'}); hold(1200); return; }
       g.scrollLeft += dir*by;
+      if(Math.abs(g.scrollLeft) >= half) g.scrollLeft -= dir*half;
     }
     if(!matchMedia('(prefers-reduced-motion: reduce)').matches) raf=requestAnimationFrame(step);
     g._stop=function(){ cancelAnimationFrame(raf); };
@@ -153,12 +172,26 @@ window.SHELL = (function(){
   function wireGalleries(){
     document.querySelectorAll('.gal').forEach(function(g){
       if(g._stop) g._stop();
-      var imgs=[].slice.call(g.querySelectorAll('img')), left=imgs.length;
-      if(!left) return;
-      function done(){ if(--left<=0) autoScroll(g); }
+      var imgs=[].slice.call(g.querySelectorAll('img:not([data-clone])'));
+      if(!imgs.length) return;
+      var left=imgs.length;
+      function ready(){
+        if(--left > 0) return;
+        /* التكرار بيحصل بس لو المحتوى طالع بره الإطار فعلا. صورة واحدة
+           جنبها نسخة منها شكله غلط, وكمان مفيش حاجة تلف أصلا. */
+        if(g.scrollWidth <= g.clientWidth + 8) return;
+        if(!g.dataset.looped){
+          imgs.forEach(function(im){
+            var c=im.cloneNode(true); c.setAttribute('aria-hidden','true');
+            c.setAttribute('data-clone','1'); g.appendChild(c);
+          });
+          g.dataset.looped='1';
+        }
+        autoScroll(g);
+      }
       imgs.forEach(function(im){
-        if(im.complete) done();
-        else { im.addEventListener('load',done,{once:true}); im.addEventListener('error',done,{once:true}); }
+        if(im.complete) ready();
+        else { im.addEventListener('load',ready,{once:true}); im.addEventListener('error',ready,{once:true}); }
       });
     });
   }
@@ -211,11 +244,14 @@ window.SHELL = (function(){
       var shot = (a.shots && a.shots.length)
         ? '<div class="mshot" data-fb="'+esc(o.fb?o.fb(a):name.slice(0,2))+'"><img src="'+a.shots[0]+'" alt="" loading="lazy"></div>'
         : '<div class="mshot none"><div class="big">'+(o.fb?o.fb(a):esc(name.slice(0,2)))+'</div></div>';
-      var tags = txt(a.tags).slice(0,2).map(function(x){ return '<span>'+esc(x)+'</span>'; }).join('');
+      var tags = txt(a.tags).slice(0,3).map(function(x){ return '<span>'+esc(x)+'</span>'; }).join('');
+      var nums = (a.stats||[]).slice(0,3).map(function(s){
+        return '<div><b>'+esc(txt(s.v))+'</b><span>'+esc(txt(s.l))+'</span></div>'; }).join('');
       return '<button class="mcard" data-go="'+a.key+'" type="button" aria-label="'+esc(name)+'">'+shot+
         '<div class="mbody"><div class="mtop">'+o.icon(a,'card')+
           '<div><b>'+esc(name)+'</b><small>'+o.sub(a)+'</small></div></div>'+
         '<p>'+esc(txt(a.one))+'</p><div class="mtags">'+tags+'</div>'+
+        (nums ? '<div class="mnums">'+nums+'</div>' : '')+
         '<div class="mgo">'+(L==='ar'?'شوف التفاصيل':'See the detail')+'<span class="arr">↓</span></div>'+
       '</div></button>';
     }).join('');
