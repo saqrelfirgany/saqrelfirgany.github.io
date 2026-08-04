@@ -166,7 +166,9 @@ window.SHELL = (function(){
       g.scrollLeft += dir*by;
       if(Math.abs(g.scrollLeft) >= half) g.scrollLeft -= dir*half;
     }
-    if(!matchMedia('(prefers-reduced-motion: reduce)').matches) raf=requestAnimationFrame(step);
+    /* بيلف عند الكل — بما فيهم اللي مفعّل «تقليل الحركة» (قرار صقر
+       2026-08-04). بيقف أول ما تلمسه, فاللي عايز يوقفه يقدر. */
+    raf=requestAnimationFrame(step);
     g._stop=function(){ cancelAnimationFrame(raf); };
   }
   function wireGalleries(){

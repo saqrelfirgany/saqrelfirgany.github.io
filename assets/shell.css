@@ -109,7 +109,9 @@ html[dir=rtl] .door:hover .go .arr{transform:translateX(-4px)}
 @keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 html[dir=rtl] .track{animation-name:slideR}
 @keyframes slideR{from{transform:translateX(0)}to{transform:translateX(50%)}}
-@media(prefers-reduced-motion:reduce){.track{animation:none}}
+/* قرار صقر 2026-08-04: الحركة تشتغل عند الكل. كانت متوقفة لمن مفعّل
+   «تقليل الحركة» في نظامه — والإعداد ده كان مفتوح على ماكه هو, فالشريط
+   والمعرض كانوا واقفين عنده والكود سليم. */
 .mcard{flex:0 0 408px;background:#fff;border:1px solid var(--line);border-radius:var(--radius);
        cursor:pointer;transition:transform .28s cubic-bezier(.2,.7,.3,1),box-shadow .28s,border-color .28s;
        text-align:start;display:block;font:inherit;color:inherit;overflow:hidden;
