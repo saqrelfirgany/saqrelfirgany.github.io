@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/shell.css?v=20260804c">
+<link rel="stylesheet" href="/assets/shell.css?v=20260805a">
 </head>
 <body>
 
@@ -35,12 +35,12 @@
 
 <footer id="foot"></footer>
 
-<script src="/assets/shell.js?v=20260804c"></script>
-<script src="data.js?v=20260804c"></script>
+<script src="/assets/shell.js?v=20260805a"></script>
+<script src="data.js?v=20260805a"></script>
 <script>
 (function(){
   var S = SHELL;
-  // الفروق بين التطبيقات والألعاب — الرندرر نفسه في shell.js.
+  // Only what differs between apps and games — the renderer itself is in shell.js.
   var opts = {
     fb: function(a){ return S.esc(S.txt(a.name).slice(0,2)); },
     icon: function(a, where){
@@ -55,10 +55,12 @@
     chips: function(a){ return '<span class="chip">'+S.esc(a.year)+'</span>'; },
     links: function(a){
       if(a.internal) return '<div class="privnote">'+S.t('internal')+'</div>';
-      return (a.links||[]).map(function(k){
+      // Only one primary button. Two solid blue buttons side by side compete and
+      // nobody knows where to start — the first is primary, the rest secondary.
+      return (a.links||[]).map(function(k, i){
         var lbl = k.label ? S.txt(k.label) : S.t(k.t);
         var ico = k.t==='play' ? ICON.play : (k.t==='ios' ? ICON.ios : ICON.globe);
-        return '<a class="btn pri" href="'+k.u+'" target="_blank" rel="noopener">'+ico+lbl+'</a>';
+        return '<a class="btn'+(i===0?' pri':'')+'" href="'+k.u+'" target="_blank" rel="noopener">'+ico+lbl+'</a>';
       }).join('');
     }
   };

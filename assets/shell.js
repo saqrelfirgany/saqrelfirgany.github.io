@@ -1,17 +1,17 @@
 /* ===================================================================
-   shell.js — الأجزاء الثابتة في الموقع كله: البيانات الشخصية,
-   البروفايلات, الأيقونات, نصوص البار والفوتر, ومنطق اللغة.
-   مصدر واحد لتلات صفحات. عدّل هنا, يتغير في الكل.
+   shell.js — everything the whole site shares: personal details,
+   profiles, icons, bar and footer strings, and the language logic.
+   One source for three pages. Edit here, it changes everywhere.
 
-   الصفحة نفسها بتضيف: ملف الداتا بتاعها + رندر المحتوى بتاعها.
+   A page adds only two things: its own data file + its own render.
    =================================================================== */
 
 window.SITE = {
   name:{en:"Ahmed ElFirgany", ar:"أحمد الفرجاني"},
-  /* سطر الدور مقفول في الهوية (قاعدة ٤) وهو نفسه على لينكدإن وجيت هب
-     وكل البروفايلات: Software Engineer | Mobile Expert */
-  role:{en:"Software Engineer · Mobile Expert · Trusted tech partner",
-        ar:"مهندس سوفت وير · خبير تطوير تطبيقات الموبايل · شريك تقني موثوق"},
+  /* The role line is fixed by the brand identity (rule 4) and matches LinkedIn,
+     GitHub and every other profile: Software Engineer | Mobile Expert */
+  role:{en:"Software Engineer · Mobile Expert",
+        ar:"مهندس برمجيات · خبير تطبيقات الموبايل"},
   links:{
     home:  "/",
     apps:  "/apps/",
@@ -50,7 +50,7 @@ window.ICON = {
   pad:'<svg viewBox="0 0 24 24"><path d="M17 6H7a5 5 0 0 0-5 5v3a4 4 0 0 0 7.2 2.4l.6-.9h4.4l.6.9A4 4 0 0 0 22 14v-3a5 5 0 0 0-5-5ZM8.8 12.4H7.6v1.2a.9.9 0 1 1-1.8 0v-1.2H4.6a.9.9 0 1 1 0-1.8h1.2V9.4a.9.9 0 1 1 1.8 0v1.2h1.2a.9.9 0 1 1 0 1.8Zm6.5.6a1.1 1.1 0 1 1 0-2.2 1.1 1.1 0 0 1 0 2.2Zm2.6 2a1.1 1.1 0 1 1 0-2.2 1.1 1.1 0 0 1 0 2.2Zm0-4a1.1 1.1 0 1 1 0-2.2 1.1 1.1 0 0 1 0 2.2Z"/></svg>'
 };
 
-/* النصوص المشتركة بين الصفحات. النص الخاص بصفحة بيقعد في صفحته. */
+/* Strings shared by every page. Page-specific text stays in its own page. */
 window.SHELL_T = {
   en:{ "nav.home":"Home", "nav.apps":"The apps", "nav.games":"The games",
        "gallery":"Screenshots", "did":"What I built", "hard":"The hard part",
@@ -60,26 +60,29 @@ window.SHELL_T = {
        "live":"Live", "soon":"In progress",
        "cta.h":"Have something you need built properly?",
        "cta.p":"Send me what you are trying to ship and what is in your way. If it is a fit I will tell you how I would build it — and if it is not, I will tell you that too.",
-       "cta.mail":"Email me", "cta.upd":"Updated", "foot.find":"Find me" },
+       "cta.mail":"Email me", "cta.upd":"Updated", "foot.find":"Find me",
+       "detail":"See the detail", "skip":"Skip to content" },
   ar:{ "nav.home":"الرئيسية", "nav.apps":"التطبيقات", "nav.games":"الألعاب",
-       "gallery":"صور", "did":"اللي عملته", "hard":"الجزء الصعب",
-       "open":"افتح", "play":"جوجل بلاي", "ios":"آب ستور", "run":"العب", "code":"الكود",
-       "noshot":"مفيش معرض صور للحاجة دي.",
-       "internal":"نظام داخلي — بيشتغل جوه شركة العميل, فمالوش صفحة على متجر عام.",
-       "live":"شغالة", "soon":"تحت الشغل",
-       "cta.h":"عندك حاجة محتاجة تتبني صح؟",
-       "cta.p":"ابعتلي انت عايز تنزل إيه وإيه اللي واقف قدامك. لو الشغل مناسب هقولك هبنيه إزاي, ولو مش مناسب هقولك كده برضه.",
-       "cta.mail":"كلمني", "cta.upd":"آخر تحديث", "foot.find":"تلاقيني هنا" }
+       "gallery":"لقطات", "did":"ما بنيته", "hard":"الجزء الصعب",
+       "open":"افتح", "play":"Google Play", "ios":"App Store", "run":"العب", "code":"الكود",
+       "detail":"التفاصيل",
+       "noshot":"لا توجد لقطات لهذا العمل.",
+       "internal":"نظام داخلي — يعمل داخل شركة العميل، فليست له صفحة على متجر عام.",
+       "live":"تعمل الآن", "soon":"قيد التطوير",
+       "cta.h":"لديك مشروع يحتاج تنفيذًا محترفًا؟",
+       "cta.p":"اكتب لي ما تريد إطلاقه وما يعطّلك. إن كان العمل مناسبًا سأشرح لك كيف سأبنيه، وإن لم يكن سأقول ذلك بوضوح.",
+       "cta.mail":"راسلني", "cta.upd":"آخر تحديث", "foot.find":"تواصل معي",
+       "skip":"تخطَّ إلى المحتوى" }
 };
 
-window.BUILT = '2026-08-04';
+window.BUILT = '2026-08-05';
 
 window.SHELL = (function(){
   var L = pick();
 
-  /* اللغة: من الرابط الأول (عشان تبعت لينك عربي لعميل خليجي), وبعدين اللي
-     اختاره قبل كده, وبعدين لغة المتصفح. المفتاح واحد للموقع كله فالاختيار
-     بيفضل ثابت وانت بتنط بين الأقسام — دي كانت السبب الرئيسي للتوحيد. */
+  /* Language: the URL first (so an Arabic link can be sent to a Gulf client),
+     then the previous choice, then the browser. One key for the whole site, so
+     the choice survives moving between sections — the main reason for unifying. */
   function pick(){
     var q=(location.search.match(/[?&]lang=(ar|en)/)||[])[1];
     if(q) return q;
@@ -90,7 +93,7 @@ window.SHELL = (function(){
   function txt(o){ return (o && typeof o==='object' && !Array.isArray(o)) ? (o[L]!=null?o[L]:o.en) : o; }
   function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
-  /* لينك داخلي بيحمل اللغة معاه, عشان اللي فتح عربي يفضل عربي وهو بينط. */
+  /* Internal links carry the language, so an Arabic visit stays Arabic. */
   function href(u){
     if(!u || u.charAt(0)!=='/') return u;
     return u + (u.indexOf('?')<0 ? '?' : '&') + 'lang=' + L;
@@ -98,7 +101,8 @@ window.SHELL = (function(){
 
   function bar(active){
     var items = [['home',SITE.links.home],['apps',SITE.links.apps],['games',SITE.links.games]];
-    return '<div class="wrap">'+
+    return '<a class="skip" href="#top">'+t('skip')+'</a>'+
+    '<div class="wrap">'+
       '<a class="brand" href="'+href(SITE.links.home)+'"><span class="dot">AE</span>'+
         '<span>'+esc(txt(SITE.name))+'</span></a>'+
       '<nav>'+ items.map(function(it){
@@ -144,10 +148,10 @@ window.SHELL = (function(){
     '</div>';
   }
 
-  /* المعرض بيلف لوحده لفة مستمرة من غير ما يرجع لورا: الصور بتتكرر مرتين,
-     ولما اللفة توصل نص العرض بنطرح النص — النطة مش بتتشاف لأن الشكل هو
-     هو. بيقف أول ما تلمسه أو تسحبه, وبيفضل سكرولر حقيقي فتقدر تمسك صورة
-     معينة وتبص عليها — ده اللي منعني أعملها بأنيميشن CSS. */
+  /* The gallery loops seamlessly instead of rewinding: the images are duplicated,
+     and once the scroll passes half the width we subtract that half — the jump is
+     invisible because the content repeats. It pauses on touch or drag, and stays a
+     real scroller so one shot can be held and studied — hence no CSS animation. */
   function autoScroll(g){
     var dir = (document.documentElement.dir === 'rtl') ? -1 : 1;
     var paused=false, raf=0, acc=0;
@@ -160,14 +164,14 @@ window.SHELL = (function(){
     function step(){
       raf=requestAnimationFrame(step);
       if(paused || half<=4) return;
-      acc += 1.15;                      // ~٦٩ بكسل في الثانية — بيبان إنه ماشي
+      acc += 1.15;                      // ~69 px per second — visibly moving
       if(acc<1) return;
       var by=Math.floor(acc); acc-=by;
       g.scrollLeft += dir*by;
       if(Math.abs(g.scrollLeft) >= half) g.scrollLeft -= dir*half;
     }
-    /* بيلف عند الكل — بما فيهم اللي مفعّل «تقليل الحركة» (قرار صقر
-       2026-08-04). بيقف أول ما تلمسه, فاللي عايز يوقفه يقدر. */
+    /* Runs for everyone — including users who enable "reduce motion" (Saqr's
+       call, 2026-08-04). It pauses on touch, so it can still be stopped. */
     raf=requestAnimationFrame(step);
     g._stop=function(){ cancelAnimationFrame(raf); };
   }
@@ -179,8 +183,8 @@ window.SHELL = (function(){
       var left=imgs.length;
       function ready(){
         if(--left > 0) return;
-        /* التكرار بيحصل بس لو المحتوى طالع بره الإطار فعلا. صورة واحدة
-           جنبها نسخة منها شكله غلط, وكمان مفيش حاجة تلف أصلا. */
+        /* Only duplicate when the content actually overflows the frame. One
+           image beside a copy of itself looks wrong, and nothing needs looping. */
         if(g.scrollWidth <= g.clientWidth + 8) return;
         if(!g.dataset.looped){
           imgs.forEach(function(im){
@@ -198,8 +202,8 @@ window.SHELL = (function(){
     });
   }
 
-  /* صورة من متجر ممكن تتغير في أي وقت. لو وقعت الصفحة تفضل مظبوطة —
-     مربع مكسور على بورتفوليو أوحش من مفيش صورة. */
+  /* A store-hosted image can change or vanish at any time. If one fails the page
+     still holds up — a broken image on a portfolio looks worse than no image. */
   function wireImages(){
     document.querySelectorAll('.gal img, img.ic, .mtop img, .mshot img, .door .art img').forEach(function(im){
       im.addEventListener('error', function(){
@@ -232,13 +236,13 @@ window.SHELL = (function(){
   }
 
   /* ---------------------------------------------------------------
-     الرندرر المشترك. التطبيقات والألعاب بيستخدموه الاتنين — الفروق
-     بينهم بتتبعت كـhooks بدل ما يتكتب الكود مرتين.
-       o.icon(a)   الأيقونة (صورة أو إيموجي)
-       o.sub(a)    السطر الصغير تحت الاسم في الكارت
-       o.chips(a)  الشيبس بعد شيب الدور
-       o.links(a)  الأزرار تحت
-       o.wide      معرض عريض (لقطات ألعاب) بدل الطولي (سكرين شوت موبايل)
+     The shared renderer. Apps and games both use it — their differences
+     are passed in as hooks rather than writing the code twice.
+       o.icon(a)   the icon (image or emoji)
+       o.sub(a)    the small line under the name on the card
+       o.chips(a)  chips added after the role chip
+       o.links(a)  the buttons at the bottom
+       o.wide      wide gallery (game shots) instead of tall (phone screenshots)
      --------------------------------------------------------------- */
   function cards(items, o){
     return items.map(function(a){
@@ -254,7 +258,7 @@ window.SHELL = (function(){
           '<div><b>'+esc(name)+'</b><small>'+o.sub(a)+'</small></div></div>'+
         '<p>'+esc(txt(a.one))+'</p><div class="mtags">'+tags+'</div>'+
         (nums ? '<div class="mnums">'+nums+'</div>' : '')+
-        '<div class="mgo">'+(L==='ar'?'شوف التفاصيل':'See the detail')+'<span class="arr">↓</span></div>'+
+        '<div class="mgo">'+t('detail')+'<span class="arr">↓</span></div>'+
       '</div></button>';
     }).join('');
   }
@@ -287,7 +291,7 @@ window.SHELL = (function(){
     }).join('');
   }
 
-  /* الهيرو المشترك: الأرقام + صف البروفايلات + الشريط المتحرك. */
+  /* The shared hero: the numbers + the profiles row + the marquee. */
   function hero(items, o){
     var hs=document.getElementById('hstats');
     if(hs) hs.innerHTML = PAGE.stats.map(function(s){
@@ -309,7 +313,7 @@ window.SHELL = (function(){
   var api = {
     get L(){ return L; }, t:t, txt:txt, esc:esc, href:href,
     cards:cards, sections:sections, hero:hero, cross:cross,
-    /* draw() بتاعة الصفحة بتترسم جوه mount, وبتتنادى تاني لما اللغة تتغير. */
+    /* The page's draw() runs inside mount, and again whenever the language changes. */
     mount:function(opts){
       function render(){
         document.documentElement.lang = L;
@@ -318,7 +322,7 @@ window.SHELL = (function(){
         var b=document.getElementById('bar'); if(b) b.innerHTML = bar(opts.active);
         var p=document.getElementById('prow'); if(p) p.innerHTML = profiles();
         var f=document.getElementById('foot'); if(f) f.innerHTML = foot(api.txt(opts.fine));
-        /* data-s = حقل من SITE (مشترك) · data-p = حقل من PAGE (خاص بالصفحة) */
+        /* data-s = a field from SITE (shared) · data-p = a field from PAGE (per page) */
         document.querySelectorAll('[data-s]').forEach(function(n){
           n.textContent = api.txt(SITE[n.getAttribute('data-s')]); });
         document.querySelectorAll('[data-p]').forEach(function(n){
@@ -342,8 +346,8 @@ window.SHELL = (function(){
         if(g){ var s=document.getElementById(g.getAttribute('data-go'));
                if(s) s.scrollIntoView({behavior:'smooth',block:'start'}); }
       });
-      /* لينك زي .../apps/#adam لازم ينزل على القسم ده. المتصفح بيحاول قبل
-         ما المحتوى يترسم, فبنعيدها بعد الرسم. */
+      /* A link like .../apps/#adam has to land on that section. The browser tries
+         before the content is rendered, so we repeat the jump after rendering. */
       if(location.hash.length>1){
         var el=document.getElementById(location.hash.slice(1));
         if(el) setTimeout(function(){ el.scrollIntoView({block:'start'}); }, 60);
