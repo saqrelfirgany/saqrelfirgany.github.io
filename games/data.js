@@ -88,7 +88,7 @@ window.PAGE = {
   cross:{
     eyebrow:{en:"The other half", ar:"النصف الآخر"},
     h:{en:"The apps that shipped", ar:"التطبيقات التي نزلت"},
-    p:{en:"The games are the experiment. The catalogue is the work that shipped. 15+ apps across five countries. Each one carries the hard part and a store link.",
+    p:{en:"The games are the experiment. The catalogue is the work that shipped. 18+ apps across five countries. Each one carries the hard part and a store link.",
        ar:"الألعاب هي التجربة. والكتالوج هو العمل الذي نزل. أكثر من ١٥ تطبيقاً في ٥ دول. مع كل تطبيق أصعب جزء فيه ورابط المتجر."},
     btn:{en:"Open the app catalogue", ar:"افتح كتالوج التطبيقات"},
     to:"apps"
