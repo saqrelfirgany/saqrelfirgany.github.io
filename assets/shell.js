@@ -53,26 +53,26 @@ window.ICON = {
 /* Strings shared by every page. Page-specific text stays in its own page. */
 window.SHELL_T = {
   en:{ "nav.home":"Home", "nav.apps":"The apps", "nav.games":"The games",
-       "gallery":"Screenshots", "did":"What I built", "hard":"The hard part",
+       "gallery":"Screenshots", "did":"What we built", "hard":"The hard part",
        "open":"Open", "play":"Google Play", "ios":"App Store", "run":"Play", "code":"Code",
        "noshot":"No gallery for this one.",
        "internal":"Internal system. It runs inside the client's company, so there is no public store page.",
        "live":"Live", "soon":"In progress",
        "cta.h":"Something you need built properly?",
-       "cta.p":"Tell me what you want to ship, and what is blocking it. If it fits, I will show you how I would build it. If not, I will say so.",
+       "cta.p":"Tell me about the project, and what is holding it up. If it is in my lane, I will come back with a clear plan. If it is not, I will say so in the first reply.",
        "cta.mail":"Email me", "cta.upd":"Updated", "foot.find":"Find me",
        "detail":"See the detail", "skip":"Skip to content" },
   ar:{ "nav.home":"الرئيسية", "nav.apps":"التطبيقات", "nav.games":"الألعاب",
-       "gallery":"لقطات", "did":"ما بنيته", "hard":"الجزء الصعب",
+       "gallery":"لقطات", "did":"ما بنيناه", "hard":"الجزء الصعب",
        "open":"افتح", "play":"Google Play", "ios":"App Store", "run":"العب", "code":"الكود",
        "detail":"التفاصيل",
        "noshot":"لا توجد لقطات لهذا العمل.",
        "internal":"نظام داخلي. يعمل داخل شركة العميل، فليست له صفحة على متجر عام.",
        "live":"تعمل الآن", "soon":"قيد التطوير",
-       "cta.h":"عندك مشروع يحتاج تنفيذاً محترفاً؟",
-       "cta.p":"قل لي ما تريد إطلاقه، وما الذي يعطّله. إن كان مناسباً، سأشرح كيف أبنيه. وإن لم يكن، سأقولها.",
+       "cta.h":"لديك مشروع يحتاج تنفيذاً محترفاً؟",
+       "cta.p":"صف لي المشروع، وما الذي يعطّله. إن كان في تخصصي، سأرد بتصور واضح للتنفيذ. وإن لم يكن، سأخبرك من أول رسالة.",
        "cta.mail":"راسلني", "cta.upd":"آخر تحديث", "foot.find":"تواصل معي",
-       "skip":"تخطَّ إلى المحتوى" }
+       "skip":"انتقل إلى المحتوى" }
 };
 
 window.BUILT = '2026-08-05';
