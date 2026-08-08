@@ -61,6 +61,8 @@ window.SHELL_T = {
        "cta.h":"Something you need built properly?",
        "cta.p":"Tell me about the project, and what is holding it up. If it is in my lane, I will come back with a clear plan. If it is not, I will say so in the first reply.",
        "cta.mail":"Email me", "cta.upd":"Updated", "foot.find":"Find me",
+       "foot.secs":"Sections", "foot.reach":"Get in touch", "foot.rights":"All rights reserved.",
+       "lb.close":"Close", "lb.prev":"Previous", "lb.next":"Next",
        "detail":"See the detail", "skip":"Skip to content" },
   ar:{ "nav.home":"الرئيسية", "nav.apps":"التطبيقات", "nav.games":"الألعاب",
        "gallery":"لقطات", "did":"ما بنيناه", "hard":"الجزء الصعب",
@@ -71,7 +73,9 @@ window.SHELL_T = {
        "live":"تعمل الآن", "soon":"قيد التطوير",
        "cta.h":"لديك مشروع يحتاج تنفيذاً محترفاً؟",
        "cta.p":"صف لي المشروع، وما الذي يعطّله. إن كان في تخصصي، سأرد بتصور واضح للتنفيذ. وإن لم يكن، سأخبرك من أول رسالة.",
-       "cta.mail":"راسلني", "cta.upd":"آخر تحديث", "foot.find":"تواصل معي",
+       "cta.mail":"راسلني", "cta.upd":"آخر تحديث", "foot.find":"البروفايلات",
+       "foot.secs":"أقسام الموقع", "foot.reach":"راسلني", "foot.rights":"كل الحقوق محفوظة.",
+       "lb.close":"إغلاق", "lb.prev":"السابق", "lb.next":"التالي",
        "skip":"انتقل إلى المحتوى" }
 };
 
@@ -120,25 +124,44 @@ window.SHELL = (function(){
     }).join('');
   }
 
+  /* The footer carries four columns, the way a developer's site does: the
+     invitation, the sections, the profiles, and a row of round social
+     buttons. It is the last thing on every page, so it is also the last
+     chance to give someone a way to reach him. */
   function foot(fine){
-    var links = PROFILES.map(function(p){
-      return '<a href="'+p.u+'" target="_blank" rel="noopener">'+ICON[p.k]+
-             '<span>'+p.n+'</span></a>';
-    }).join('');
     var secs = [['home',SITE.links.home],['apps',SITE.links.apps],['games',SITE.links.games]]
       .map(function(it){ return '<a href="'+href(it[1])+'">'+t('nav.'+it[0])+'</a>'; }).join('') +
       '<a href="'+SITE.links.github+'" target="_blank" rel="noopener">GitHub</a>';
+
+    /* the named list — the four a recruiter actually opens */
+    var named = PROFILES.filter(function(p){
+      return ['github','linkedin','x','devto'].indexOf(p.k) >= 0;
+    }).map(function(p){
+      return '<a href="'+p.u+'" target="_blank" rel="noopener">'+p.n+'</a>';
+    }).join('');
+
+    /* and every profile as a round button, icon only */
+    var round = PROFILES.map(function(p){
+      return '<a href="'+p.u+'" target="_blank" rel="noopener" title="'+esc(p.n)+'" '+
+             'aria-label="'+esc(p.n)+'">'+ICON[p.k]+'</a>';
+    }).join('');
+
     return '<div class="wrap">'+
       '<div class="ftop">'+
         '<div>'+
           '<h2>'+t('cta.h')+'</h2><p>'+t('cta.p')+'</p>'+
           '<div class="btns">'+
             '<a class="btn pri" href="'+SITE.links.mail+'">'+ICON.email+t('cta.mail')+'</a>'+
-            '<a class="btn" href="'+SITE.links.linkedin+'" target="_blank" rel="noopener">'+ICON.linkedin+'LinkedIn</a>'+
+            '<a class="btn" href="'+SITE.links.linkedin+'" target="_blank" rel="noopener">'+
+              ICON.linkedin+'LinkedIn</a>'+
           '</div>'+
-          '<div class="fnav">'+secs+'</div>'+
         '</div>'+
-        '<div class="fcol"><h3>'+t('foot.find')+'</h3><div class="flinks">'+links+'</div></div>'+
+        '<div class="fcol"><h3>'+t('foot.secs')+'</h3>'+secs+'</div>'+
+        '<div class="fcol"><h3>'+t('foot.find')+'</h3>'+named+'</div>'+
+        '<div class="fcol"><h3>'+t('foot.reach')+'</h3>'+
+          '<a href="'+SITE.links.mail+'">saqrelfirgany@gmail.com</a>'+
+          '<div class="fsocial">'+round+'</div>'+
+        '</div>'+
       '</div>'+
       '<div class="fine">'+
         '<span>'+(fine||'')+'</span>'+
@@ -148,57 +171,83 @@ window.SHELL = (function(){
     '</div>';
   }
 
-  /* The gallery loops seamlessly instead of rewinding: the images are duplicated,
-     and once the scroll passes half the width we subtract that half — the jump is
-     invisible because the content repeats. It pauses on touch or drag, and stays a
-     real scroller so one shot can be held and studied — hence no CSS animation. */
-  function autoScroll(g){
-    var dir = (document.documentElement.dir === 'rtl') ? -1 : 1;
-    var paused=false, raf=0, acc=0;
-    var half = g.scrollWidth/2;
-    function hold(ms){ paused=true; clearTimeout(g._t); g._t=setTimeout(function(){ paused=false; }, ms); }
-    ['pointerenter','focusin'].forEach(function(e){ g.addEventListener(e,function(){ paused=true; clearTimeout(g._t); }); });
-    ['pointerleave','focusout'].forEach(function(e){ g.addEventListener(e,function(){ hold(500); }); });
-    g.addEventListener('wheel', function(){ hold(2500); }, {passive:true});
-    g.addEventListener('touchstart', function(){ hold(3500); }, {passive:true});
-    function step(){
-      raf=requestAnimationFrame(step);
-      if(paused || half<=4) return;
-      acc += 1.15;                      // ~69 px per second — visibly moving
-      if(acc<1) return;
-      var by=Math.floor(acc); acc-=by;
-      g.scrollLeft += dir*by;
-      if(Math.abs(g.scrollLeft) >= half) g.scrollLeft -= dir*half;
-    }
-    /* Runs for everyone — including users who enable "reduce motion" (Saqr's
-       call, 2026-08-04). It pauses on touch, so it can still be stopped. */
-    raf=requestAnimationFrame(step);
-    g._stop=function(){ cancelAnimationFrame(raf); };
+  /* -----------------------------------------------------------------
+     Lightbox. A phone screenshot is unreadable at gallery size — the whole
+     point of a screenshot is the small text inside it. Clicking one opens
+     it over the page at the largest size the store holds.
+
+     The large file is only requested on click. The gallery keeps loading
+     the small one, so opening the page still costs what it cost before.
+     ----------------------------------------------------------------- */
+  var LB = { list:[], i:0, el:null };
+
+  /* Apple serves any size from the same path — the last segment is the
+     size. The gallery asks for 1000 wide; the lightbox asks for the
+     original. Anything not from that host is opened as it is. */
+  function bigger(u){
+    return /mzstatic\.com/.test(u) ? u.replace(/\/\d+x\d+bb\.(jpg|png|webp)$/, "/2000x3000bb.webp") : u;
   }
-  function wireGalleries(){
-    document.querySelectorAll('.gal').forEach(function(g){
-      if(g._stop) g._stop();
-      var imgs=[].slice.call(g.querySelectorAll('img:not([data-clone])'));
-      if(!imgs.length) return;
-      var left=imgs.length;
-      function ready(){
-        if(--left > 0) return;
-        /* Only duplicate when the content actually overflows the frame. One
-           image beside a copy of itself looks wrong, and nothing needs looping. */
-        if(g.scrollWidth <= g.clientWidth + 8) return;
-        if(!g.dataset.looped){
-          imgs.forEach(function(im){
-            var c=im.cloneNode(true); c.setAttribute('aria-hidden','true');
-            c.setAttribute('data-clone','1'); g.appendChild(c);
-          });
-          g.dataset.looped='1';
-        }
-        autoScroll(g);
-      }
-      imgs.forEach(function(im){
-        if(im.complete) ready();
-        else { im.addEventListener('load',ready,{once:true}); im.addEventListener('error',ready,{once:true}); }
+
+  function lbBuild(){
+    if(LB.el) return LB.el;
+    var d = document.createElement("div");
+    d.className = "lb"; d.setAttribute("role","dialog"); d.setAttribute("aria-modal","true");
+    d.innerHTML =
+      '<button class="x" type="button" aria-label="'+esc(t("lb.close"))+'">&times;</button>'+
+      '<button class="nav prev" type="button" aria-label="'+esc(t("lb.prev"))+'">&#8249;</button>'+
+      '<button class="nav next" type="button" aria-label="'+esc(t("lb.next"))+'">&#8250;</button>'+
+      '<img alt=""><div class="count"></div>';
+    document.body.appendChild(d);
+    d.addEventListener("click", function(e){
+      if(e.target === d || e.target.classList.contains("x")) return lbClose();
+      if(e.target.classList.contains("prev")) return lbGo(-1);
+      if(e.target.classList.contains("next")) return lbGo(1);
+    });
+    LB.el = d; return d;
+  }
+  function lbShow(){
+    var d = lbBuild();
+    d.querySelector("img").src = bigger(LB.list[LB.i]);
+    d.querySelector(".count").textContent = (LB.i+1) + " / " + LB.list.length;
+    var one = LB.list.length < 2;
+    d.querySelectorAll(".nav").forEach(function(b){ b.style.display = one ? "none" : ""; });
+    d.querySelector(".count").style.display = one ? "none" : "";
+  }
+  /* The arrows wrap, so the last shot leads back to the first instead of
+     dead-ending on a button that does nothing. */
+  function lbGo(step){
+    LB.i = (LB.i + step + LB.list.length) % LB.list.length;
+    lbShow();
+  }
+  function lbOpen(list, i){
+    LB.list = list; LB.i = i;
+    lbShow(); LB.el.classList.add("on"); document.body.classList.add("lbopen");
+    LB.el.querySelector(".x").focus();
+  }
+  function lbClose(){
+    if(!LB.el) return;
+    LB.el.classList.remove("on"); document.body.classList.remove("lbopen");
+    LB.el.querySelector("img").removeAttribute("src");
+  }
+  function wireLightbox(){
+    document.querySelectorAll(".gal").forEach(function(g){
+      if(g.dataset.lb) return;
+      g.dataset.lb = "1";
+      g.addEventListener("click", function(e){
+        var im = e.target.closest("img"); if(!im) return;
+        var all = [].slice.call(g.querySelectorAll("img"));
+        lbOpen(all.map(function(x){ return x.src; }), all.indexOf(im));
       });
+    });
+  }
+  /* Keyboard: Escape closes, arrows move. Bound once for the whole page. */
+  if(!window._lbKeys){
+    window._lbKeys = 1;
+    document.addEventListener("keydown", function(e){
+      if(!LB.el || !LB.el.classList.contains("on")) return;
+      if(e.key === "Escape") lbClose();
+      else if(e.key === "ArrowRight") lbGo(document.documentElement.dir === "rtl" ? -1 : 1);
+      else if(e.key === "ArrowLeft")  lbGo(document.documentElement.dir === "rtl" ? 1 : -1);
     });
   }
 
@@ -306,8 +355,8 @@ window.SHELL = (function(){
     box.innerHTML =
       '<div class="eyebrow">'+esc(txt(c.eyebrow))+'</div>'+
       '<h2>'+esc(txt(c.h))+'</h2><p>'+esc(txt(c.p))+'</p>'+
-      '<div class="btns"><a class="btn pri" href="'+href(SITE.links[c.to])+'">'+
-        (c.to==='games'?ICON.pad:ICON.grid)+esc(txt(c.btn))+'</a></div>';
+      '<div class="btns"><a class="circ" href="'+href(SITE.links[c.to])+'">'+
+        '<span>'+esc(txt(c.btn))+'</span><i>&rarr;</i></a></div>';
   }
 
   var api = {
@@ -328,7 +377,7 @@ window.SHELL = (function(){
         document.querySelectorAll('[data-p]').forEach(function(n){
           n.textContent = api.txt((window.PAGE||{})[n.getAttribute('data-p')]); });
         if(opts.draw) opts.draw();
-        wireImages(); wireGalleries();
+        wireImages(); wireLightbox();
         var lb=document.getElementById('lang');
         if(lb) lb.addEventListener('click', function(){
           L = (L==='ar') ? 'en' : 'ar';
