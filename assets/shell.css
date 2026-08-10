@@ -146,20 +146,22 @@ html[dir=rtl] .hstats span{text-transform:none;letter-spacing:0;font-size:13.5px
    profiles row — small circular buttons, the name appears on hover
    ------------------------------------------------------------------ */
 .prow{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:clamp(24px,3.4vw,36px)}
+/* الأزرار دي كانت دواير بالأيقونة بس, والاسم مايبانش غير لما تحط الماوس
+   عليها. يعني على التليفون — اللي مالوش ماوس أصلا — الاسم عمره ما كان
+   بيبان. تمن الظهور الدايم إنها بتاخد عرض أكتر, وده مقبول: دي أول حاجة
+   بتقول للي فتح الصفحة إنه يقدر يوصلك فين. */
 .prow a{
-  display:inline-flex;align-items:center;gap:0;overflow:hidden;
-  height:42px;width:42px;padding:0;border:1px solid var(--line);border-radius:100px;
-  background:var(--paper-2);color:var(--mute);
-  transition:width .38s var(--ease),color .25s,border-color .25s,background .25s;
-  white-space:nowrap;
+  display:inline-flex;align-items:center;gap:9px;
+  height:42px;padding:0 17px;border:1px solid var(--line);border-radius:100px;
+  background:var(--paper-2);color:var(--body);
+  transition:.26s var(--ease);white-space:nowrap;
 }
-.prow a svg{width:17px;height:17px;fill:currentColor;flex:none;margin-inline:12px}
-.prow a span{font-size:13.5px;opacity:0;transition:opacity .2s;padding-inline-end:16px}
+.prow a svg{width:16px;height:16px;fill:currentColor;flex:none}
+.prow a span{font-size:13.5px;font-weight:500}
 .prow a .hd{display:none}
-.prow a:hover{width:auto;color:var(--ink);border-color:var(--accent);background:#fff}
-.prow a:hover span{opacity:1}
-.prow a:focus-visible{width:auto;outline:2px solid var(--accent);outline-offset:2px}
-.prow a:focus-visible span{opacity:1}
+.prow a:hover{color:var(--accent);border-color:var(--accent);background:#fff;
+              transform:translateY(-2px)}
+.prow a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
 /* ------------------------------------------------------------------
    buttons
@@ -203,20 +205,37 @@ html[dir=rtl] .circ:hover i{transform:scaleX(-1) rotate(45deg)}
 }
 .door:hover{border-color:#C9D2DE;transform:translateY(-4px);
             box-shadow:0 22px 50px -28px rgba(15,23,32,.20)}
-.door .art{height:clamp(190px,24vw,260px);overflow:hidden;background:var(--dark);position:relative}
-.door .art img{width:100%;height:100%;object-fit:cover;transition:transform 1.1s var(--ease)}
-.door:hover .art img{transform:scale(1.05)}
+/* شباك العرض بتاع الباب. اللقطات بتقف جنب بعض وبتنزل من تحت الإطار —
+   الفكرة إنها تبان كإنها بداية رف طويل, مش أربع صور مركونة في مربع. */
+.door .art{height:clamp(240px,29vw,330px);overflow:hidden;position:relative;
+           background:linear-gradient(160deg,#1B2A3D,#0F1720);
+           display:flex;align-items:flex-end;justify-content:center;
+           gap:clamp(8px,1.1vw,14px);
+           /* الحشوة من فوق بتسيب شريط فاضي للأيقونات تقعد فيه من غير ما
+              تركب على اللقطات. من غيرها كانت واقفة فوق أول لقطة. */
+           padding:clamp(52px,6vw,66px) clamp(14px,2vw,26px) 0}
+.door .art img{width:auto;height:100%;object-fit:cover;object-position:top center;
+               border-radius:12px 12px 0 0;box-shadow:0 14px 34px -14px rgba(0,0,0,.6);
+               transition:transform .7s var(--ease);flex:0 1 auto;min-width:0}
+/* اللقطة الطولية بتاخد عرض أقل عشان الأربعة يبانوا مع بعض */
+.door .art:not(.wide) img{max-width:26%}
+/* لقطة اللعبة عرضية. لو سبناها `height:auto` بتقف في قاع الشباك وتسيب
+   نص الشباك أسود فاضي. بتملا الطول زي لقطة التطبيق بالظبط. */
+.door .art.wide img{max-width:48%;height:100%;object-fit:cover;object-position:center;
+                    border-radius:12px 12px 0 0}
+.door:hover .art img{transform:translateY(-8px)}
+.door:hover .art img:nth-child(2){transition-delay:.04s}
+.door:hover .art img:nth-child(3){transition-delay:.08s}
+.door:hover .art img:nth-child(4){transition-delay:.12s}
 .door .art .glyph{position:absolute;inset:0;display:grid;place-items:center;font-size:60px}
-/* the icon wall — app icons laid out as a tight grid behind the door */
-.door .art.icons{display:grid;grid-template-columns:repeat(5,1fr);gap:0;background:var(--dark-2)}
-/* `cover` كان بيقص الأيقونة المربعة جوه خانة طويلة, فالنتيجة كانت شرايط
-   ملونة مش أيقونات. `contain` بيوريها كلها, والمسافة حواليها بتخليها تتقري. */
-.door .art.icons img,.door .art.icons .ph{width:100%;height:100%;object-fit:contain;
-  padding:clamp(10px,1.6vw,20px);opacity:.85;
-  transition:opacity .5s var(--ease),transform .8s var(--ease)}
-.door .art.icons .ph{background:#22303F}
-.door .art.icons img:nth-child(2),.door .art.icons img:nth-child(4){opacity:.62}
-.door:hover .art.icons img{opacity:1;transform:scale(1.04)}
+/* شريط الأيقونات: بيقعد فوق اللقطات في ركن, بيقول «وفيه كمان» */
+.door .art .ico{position:absolute;top:clamp(13px,1.7vw,19px);inset-inline:clamp(14px,2vw,26px);
+                display:flex;gap:7px;z-index:2;justify-content:flex-start}
+.door .art .ico img{width:clamp(26px,2.7vw,34px);height:clamp(26px,2.7vw,34px);max-width:none;
+                    border-radius:8px;object-fit:cover;border:1px solid rgba(255,255,255,.16);
+                    box-shadow:0 4px 12px -4px rgba(0,0,0,.5)}
+.door:hover .art .ico img{transform:none}
+.door .art .ph{width:60px;height:100%;background:#22303F;border-radius:12px 12px 0 0}
 .door .in{padding:clamp(24px,3vw,34px)}
 .door h2{font-size:clamp(23px,2.4vw,30px);margin-bottom:12px}
 .door p{font-size:15.5px;color:var(--body);margin-bottom:22px}
@@ -341,7 +360,10 @@ html[dir=rtl] .mini{font:700 13.5px/1 var(--f-ar);letter-spacing:0;text-transfor
 }
 .gal img:hover{transform:translateY(-5px);
                box-shadow:0 26px 52px -24px rgba(15,23,32,.28)}
-.gal.wide img{height:clamp(200px,26vw,300px)}
+/* لقطة اللعبة عرضية, فبالطول ده بتطلع أعرض من العمود — واللي بعدها
+   بيبان منها طرف. الطرف ده هو اللي بيقول إن فيه كمان. من غيره الصف
+   بيبان وكإنه صورة واحدة ومفيش غيرها. */
+.gal.wide img{height:clamp(250px,32vw,400px)}
 .noshot{border:1px dashed var(--line);border-radius:var(--r);padding:38px 26px;
         text-align:center;color:var(--mute);font-size:14.5px}
 

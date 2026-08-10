@@ -13,7 +13,7 @@ window.APPS = [
   hard:{en:"Switching role or branch changes what the whole app may read and write. One permission source, read by every screen, with no restart.",
         ar:"تغيير الدور أو الفرع يغيّر ما يستطيع التطبيق كله قراءته وكتابته. مصدر صلاحيات واحد تقرأ منه كل شاشة, بلا إعادة تشغيل."},
   tech:["Flutter","Clean Architecture","BLoC","GetIt","Dio","RBAC","PDF"],
-  links:[{t:"ios",u:"https://apps.apple.com/us/app/id6763802371"}],
+  links:[{t:"play",u:"https://play.google.com/store/apps/details?id=com.dacttra.clinics"},{t:"ios",u:"https://apps.apple.com/us/app/id6763802371"}],
   icon:"https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/f6/73/61/f67361a6-cf29-5ad7-375f-894e84ea47cf/AppIcon-0-1x_U007epad-0-11-0-85-220-0.png/1024x1024bb.webp",
   shots:["https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/00/42/5e/00425e65-e88a-96a6-26b9-7bf24d8e3935/Screenshots_ar_4.jpg/1000x1500bb.webp",
 "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/ba/ef/4e/baef4e89-7c10-3831-804e-c206bc7b5d26/Screenshots_half_en_1.jpg/1000x1500bb.webp",

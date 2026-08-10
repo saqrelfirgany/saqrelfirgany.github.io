@@ -52,22 +52,35 @@ window.PAGE = {
 
 window.DOORS = [
   { to:"apps",
-    // Store icons — same source as the catalogue, no image copied into the repo.
+    /* اللقطات دي بتيجي من نفس مصدر الكتالوج — مفيش صورة واحدة اتنسخت
+       في الريبو. لو المتجر غيّرها, الصفحة بتاخد الجديدة لوحدها.
+
+       كانت خمس أيقونات في صف. الأيقونة بتقول اسم التطبيق, واللقطة بتقول
+       هو بيعمل إيه — واللي فاتح الصفحة لأول مرة محتاج التانية. */
+    shots:[
+      "https://play-lh.googleusercontent.com/cRjxwUBdHc8o6NEFAf9cpmsVPQ8pVeYzx0sdyxpZNK2ghbB_frMJOsHC9q2E6oYJJzM6JIiSubko1fu7xcIv=w1000",
+      "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/00/42/5e/00425e65-e88a-96a6-26b9-7bf24d8e3935/Screenshots_ar_4.jpg/1000x1500bb.webp",
+      "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/d5/94/c8/d594c8f1-5f07-02e2-ad6c-d3d9a196046e/Simulator_Screenshot_-_iPhone_14_Pro_Max_-_2025-12-08_at_13.38.13.png/1000x1500bb.webp",
+      "https://play-lh.googleusercontent.com/ZgpsLb3krfungshYUz_GoVqVu3RJ3OOKZQXGW-7cbjoDzRoU006S7Vwxqzuhg08Hp-jQTlFmL7YFNfANgonG=w1000"
+    ],
     icons:[
-           // دكترا العيادات · كرونوس باي · دكترا المرضى — من الآب ستور
-           "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/f6/73/61/f67361a6-cf29-5ad7-375f-894e84ea47cf/AppIcon-0-1x_U007epad-0-11-0-85-220-0.png/1024x1024bb.webp",
-           "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/27/38/83/27388319-6241-19a2-bb9c-1b7811b03e68/AppIcon-0-1x_U007epad-0-11-0-85-220-0.png/1024x1024bb.webp",
-           "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/27/20/3e/27203ed7-3a2f-5c1a-a52c-ebc766c17e4e/AppIcon-0-1x_U007epad-0-11-0-85-220-0.png/1024x1024bb.webp",
-           // عقارماب مصر · عقارماب السعودية — من جوجل بلاي
-           "https://play-lh.googleusercontent.com/SMTnakgVfrHXtNZoeKzYELeohMgdUdTu6OcyRkgcJiAG_9JbHhLgXVBXyUxUL38E32D7NmsjiOZ9nj_PpcJdqA=w240",
-           "https://play-lh.googleusercontent.com/Xbn_5Bzk_t7b2FoTJdMZZQhlXB7ZbaOtZACveCAgiefuqJRruydJxHvmB5JoyVS5BNKxdl_miTIGkQdO-rhsXzk=w240"
+      "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/f6/73/61/f67361a6-cf29-5ad7-375f-894e84ea47cf/AppIcon-0-1x_U007epad-0-11-0-85-220-0.png/1024x1024bb.webp",
+      "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/27/38/83/27388319-6241-19a2-bb9c-1b7811b03e68/AppIcon-0-1x_U007epad-0-11-0-85-220-0.png/1024x1024bb.webp",
+      "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/27/20/3e/27203ed7-3a2f-5c1a-a52c-ebc766c17e4e/AppIcon-0-1x_U007epad-0-11-0-85-220-0.png/1024x1024bb.webp",
+      "https://play-lh.googleusercontent.com/SMTnakgVfrHXtNZoeKzYELeohMgdUdTu6OcyRkgcJiAG_9JbHhLgXVBXyUxUL38E32D7NmsjiOZ9nj_PpcJdqA=w240",
+      "https://play-lh.googleusercontent.com/Xbn_5Bzk_t7b2FoTJdMZZQhlXB7ZbaOtZACveCAgiefuqJRruydJxHvmB5JoyVS5BNKxdl_miTIGkQdO-rhsXzk=w240"
     ],
     h:{en:"The apps", ar:"التطبيقات"},
     p:{en:"Mobile apps live on the stores, used by real people. Real estate, healthcare, delivery, HR, retail. Each one shows the hardest part, and a working link.",
        ar:"تطبيقات موبايل نزلت على المتاجر ويستخدمها ناس. عقارات وصحة وتوصيل وموارد بشرية ومتاجر. لكل تطبيق أصعب جزء فيه، ورابط شغّال."},
     stats:[{v:"18+", l:{en:"apps",ar:"تطبيق"}},{v:"600K+", l:{en:"downloads",ar:"تحميل"}},{v:"5", l:{en:"countries",ar:"دول"}}],
     go:{en:"Browse the work", ar:"تصفّح الأعمال"} },
-  { to:"games", glyph:"🎮", shot:"/games/shots/runner-1.jpg", useShot:true,
+
+  { to:"games",
+    /* لقطة من كل لعبة, مش لقطتين من واحدة. الاتنين مختلفين تماما —
+       واحدة ثلاثية الأبعاد والتانية فيزياء ثنائية — والصورتين بيقولوا كده. */
+    wide:true,
+    shots:["/games/shots/runner-1.jpg","/games/shots/topple-3.jpg"],
     h:{en:"The games", ar:"الألعاب"},
     p:{en:"A 3D endless runner drawn on the graphics card from Dart. No game engine. And an archery game on real Box2D physics. Both run in your browser.",
        ar:"لعبة جري ثلاثية الأبعاد يرسمها Dart على بطاقة الرسوميات. من دون محرك ألعاب. ولعبة رماية بفيزياء Box2D حقيقية. كلتاهما تعمل في متصفحك."},
@@ -84,15 +97,17 @@ window.DOORS = [
         return '<div><b>'+S.esc(S.txt(s.v))+'</b><span>'+S.esc(S.txt(s.l))+'</span></div>'; }).join('');
 
       document.getElementById('doors').innerHTML = DOORS.map(function(d){
-        var art = d.icons
-          ? '<div class="art icons">'+d.icons.map(function(u,i){
-              return '<img src="'+u+'" alt="" loading="lazy" data-fb="'+(i+1)+'">'; }).join('')+'</div>'
-          : '<div class="art"><img src="'+d.shot+'" alt="" loading="lazy"></div>';
-        return '<a class="door" href="'+S.href(SITE.links[d.to])+'">'+art+
+        var shots = '<div class="art'+(d.wide?' wide':'')+'">'+
+          d.shots.map(function(u,i){
+            return '<img src="'+u+'" alt="" loading="lazy" data-i="'+i+'">'; }).join('')+
+          (d.icons ? '<div class="ico">'+d.icons.map(function(u){
+            return '<img src="'+u+'" alt="" loading="lazy">'; }).join('')+'</div>' : '')+
+        '</div>';
+        return '<a class="door" href="'+S.href(SITE.links[d.to])+'">'+shots+
           '<div class="in"><h2>'+S.esc(S.txt(d.h))+'</h2><p>'+S.esc(S.txt(d.p))+'</p>'+
           '<div class="dstats">'+d.stats.map(function(s){
              return '<div><b>'+S.esc(S.txt(s.v))+'</b><span>'+S.esc(S.txt(s.l))+'</span></div>'; }).join('')+'</div>'+
-          '<span class="go">'+S.esc(S.txt(d.go))+'<span class="arr">→</span></span>'+
+          '<span class="go">'+S.esc(S.txt(d.go))+'<span class="arr">&rarr;</span></span>'+
         '</div></a>';
       }).join('');
     }
