@@ -285,15 +285,20 @@ html[dir=rtl] .track{animation-name:slide-rtl}
 .sarrow:hover{background:var(--accent);border-color:var(--accent);color:#fff}
 .sarrow:disabled{opacity:.3;pointer-events:none}
 .sarrow .sarr{font-size:22px;line-height:1;margin-top:-2px}
+/* Fixed regardless of language, on purpose (2026-08-12, second pass) —
+   the first attempt mirrored both the position AND the chevron shape for
+   RTL, which swapped prev/next onto the opposite arrow glyph: a ‹ that
+   looked like "back" was wired to actually move forward. A page-navigator
+   is a UI widget, not reading content — ‹/left always means back, ›/right
+   always means forward, in Arabic or English, like the browser's own
+   back/forward buttons never flip either. Only the scroll math (sign, in
+   shell.js) needs to know about RTL, not the control itself. */
 .sarrow.prev{left:2px}
 .sarrow.next{right:2px}
-html[dir=rtl] .sarrow.prev{left:auto;right:2px}
-html[dir=rtl] .sarrow.next{right:auto;left:2px}
-html[dir=rtl] .sarrow .sarr{display:inline-block;transform:scaleX(-1)}
 @media (max-width:720px){.sarrow{display:none}}
 
 .sdots{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;
-       margin-top:16px}
+       margin-top:16px;direction:ltr}
 .sdots button{width:7px;height:7px;padding:0;border-radius:50%;border:0;
               background:var(--line);cursor:pointer;transition:.25s var(--ease)}
 .sdots button.on{width:20px;border-radius:100px;background:var(--accent)}
