@@ -275,33 +275,41 @@ html[dir=rtl] .track{animation-name:slide-rtl}
 /* arrows either side of the strip + page dots underneath, added 2026-08-12
    so the manual scroll from above has a discoverable control, not just a
    hidden touch/wheel affordance. Both are built in shell.js — .stripwrap
-   only needs to exist in the HTML so the arrows have something to sit on. */
+   only needs to exist in the HTML so the arrows have something to sit on.
+   Third pass, same day: position uses inset-inline-start/end (the browser's
+   own RTL-aware logical properties) instead of a hand-written [dir=rtl]
+   override, and the icon direction is derived from the SAME :dir(rtl)
+   check that flips the position — the two can no longer disagree with
+   each other the way the first two attempts did. */
 .stripwrap{position:relative}
-.sarrow{position:absolute;top:50%;transform:translateY(-50%);z-index:2;
-        width:40px;height:40px;border-radius:50%;padding:0;cursor:pointer;
-        display:grid;place-items:center;background:var(--paper);
-        border:1px solid var(--line);color:var(--ink);
-        box-shadow:0 10px 24px -12px rgba(15,23,32,.28);transition:.25s var(--ease)}
-.sarrow:hover{background:var(--accent);border-color:var(--accent);color:#fff}
-.sarrow:disabled{opacity:.3;pointer-events:none}
-.sarrow .sarr{font-size:22px;line-height:1;margin-top:-2px}
-/* Fixed regardless of language, on purpose (2026-08-12, second pass) —
-   the first attempt mirrored both the position AND the chevron shape for
-   RTL, which swapped prev/next onto the opposite arrow glyph: a ‹ that
-   looked like "back" was wired to actually move forward. A page-navigator
-   is a UI widget, not reading content — ‹/left always means back, ›/right
-   always means forward, in Arabic or English, like the browser's own
-   back/forward buttons never flip either. Only the scroll math (sign, in
-   shell.js) needs to know about RTL, not the control itself. */
-.sarrow.prev{left:2px}
-.sarrow.next{right:2px}
+.sarrow{position:absolute;inset-block-start:50%;transform:translateY(-50%);z-index:2;
+        width:36px;height:36px;border-radius:50%;padding:0;cursor:pointer;
+        display:grid;place-items:center;color:var(--ink);
+        background:color-mix(in srgb,var(--paper) 85%,transparent);
+        -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+        border:1px solid var(--line);
+        box-shadow:0 8px 20px -10px rgba(15,23,32,.3);transition:.2s var(--ease)}
+.sarrow:hover{background:var(--accent);border-color:var(--accent);color:#fff;
+              transform:translateY(-50%) scale(1.08)}
+.sarrow:active{transform:translateY(-50%) scale(.94)}
+.sarrow:disabled{opacity:.25;pointer-events:none}
+.sarrow .sarr{width:16px;height:16px;display:block}
+.sarrow .sarr svg{width:100%;height:100%;display:block}
+/* base (LTR): the icon points right by default, so .next needs no flip and
+   .prev is mirrored to point left — each arrow points toward its own side. */
+.sarrow.prev{inset-inline-start:8px}
+.sarrow.next{inset-inline-end:8px}
+.sarrow.prev .sarr{transform:scaleX(-1)}
+:dir(rtl) .sarrow.prev .sarr{transform:none}
+:dir(rtl) .sarrow.next .sarr{transform:scaleX(-1)}
 @media (max-width:720px){.sarrow{display:none}}
 
-.sdots{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;
-       margin-top:16px;direction:ltr}
-.sdots button{width:7px;height:7px;padding:0;border-radius:50%;border:0;
+.sdots{display:flex;justify-content:center;flex-wrap:wrap;gap:7px;
+       margin-top:16px}
+.sdots button{width:6px;height:6px;padding:0;border-radius:50%;border:0;
               background:var(--line);cursor:pointer;transition:.25s var(--ease)}
-.sdots button.on{width:20px;border-radius:100px;background:var(--accent)}
+.sdots button:hover{background:var(--mute)}
+.sdots button.on{width:22px;border-radius:100px;background:var(--accent)}
 
 .mcard{
   flex:none;width:clamp(272px,25vw,310px);text-align:start;
