@@ -346,7 +346,23 @@ window.SHELL = (function(){
     if(hs) hs.innerHTML = PAGE.stats.map(function(s){
       return '<div><b>'+esc(txt(s.v))+'</b><span>'+esc(txt(s.l))+'</span></div>'; }).join('');
     var tr=document.getElementById('track');
-    if(tr){ var c=cards(items,o); tr.innerHTML = c + c; }
+    if(tr){
+      var c=cards(items,o); tr.innerHTML = c + c;
+      wireMarquee(tr.parentElement);
+    }
+  }
+
+  /* The strip auto-slides for anyone who leaves it alone, but the moment
+     someone actually touches it — drags, wheels, grabs the scrollbar — it
+     stops for good and behaves like a normal horizontal scroller (overflow-x
+     on .strip does the rest). Without this, overflow-x:auto alone still fights
+     the transform animation: it would keep sliding under a manual scroll. */
+  function wireMarquee(strip){
+    if(!strip || strip.dataset.marquee) return;
+    strip.dataset.marquee = "1";
+    var hold = function(){ strip.classList.add('held'); };
+    strip.addEventListener('pointerdown', hold, {passive:true});
+    strip.addEventListener('wheel', hold, {passive:true});
   }
 
   function cross(){
