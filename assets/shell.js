@@ -360,9 +360,87 @@ window.SHELL = (function(){
   function wireMarquee(strip){
     if(!strip || strip.dataset.marquee) return;
     strip.dataset.marquee = "1";
-    var hold = function(){ strip.classList.add('held'); };
+    var track = strip.querySelector('.track');
+    /* animation-play-state:paused (the .held class, in shell.css) still
+       leaves the animation registered with the browser — every frame it
+       would otherwise have rendered keeps generating scroll-adjacent work
+       under a scrollable ancestor. Killing it outright (not just pausing)
+       is what actually stops that: no more transform changes, so nothing
+       left to fight a manual or a goTo() scroll. */
+    var hold = function(){
+      strip.classList.add('held');
+      if(track) track.style.animation = 'none';
+    };
     strip.addEventListener('pointerdown', hold, {passive:true});
     strip.addEventListener('wheel', hold, {passive:true});
+    wireSlider(strip, hold);
+  }
+
+  /* Arrows + page dots under the strip, added 2026-08-12. Both move by one
+     strip-width "page" at a time — the same unit either way, so the dots
+     line up with what the arrows do. The track is doubled for the seamless
+     loop (see hero() above); paging is measured against the first half
+     only, the real item count, so the dots don't imply twice the apps. */
+  function wireSlider(strip, hold){
+    var prev=document.getElementById('sprev'), next=document.getElementById('snext'),
+        dotsEl=document.getElementById('sdots'), track=document.getElementById('track');
+    if(!prev || !next || !dotsEl || !track || prev.dataset.wired) return;
+    prev.dataset.wired = "1";
+
+    var sign = document.documentElement.dir === 'rtl' ? -1 : 1;
+
+    /* Recomputed on every call instead of cached — a page count that goes
+       stale after a resize (or a render that swaps the track's children)
+       is what silently no-ops the arrows: goTo() clamps against an old,
+       smaller page count and "scrolls" to where it already is. */
+    function pageWidth(){ return strip.clientWidth || 1; }
+    function totalPages(){ return Math.max(1, Math.round((track.scrollWidth / 2) / pageWidth())); }
+    function currentPage(){
+      var p = Math.round(Math.abs(strip.scrollLeft) / pageWidth());
+      return Math.min(totalPages() - 1, Math.max(0, p));
+    }
+    function paint(){
+      var pages = totalPages(), page = currentPage(), dots = dotsEl.children;
+      for(var i=0;i<dots.length;i++) dots[i].classList.toggle('on', i===page);
+      prev.disabled = page <= 0;
+      next.disabled = page >= pages - 1;
+    }
+    function build(){
+      var pages = totalPages();
+      if(dotsEl.children.length === pages) { paint(); return; }
+      var html = '';
+      for(var i=0;i<pages;i++) html += '<button type="button" aria-label="'+(i+1)+'/'+pages+'"></button>';
+      dotsEl.innerHTML = pages > 1 ? html : '';
+      paint();
+    }
+    function goTo(p){
+      p = Math.min(totalPages() - 1, Math.max(0, p));
+      hold();
+      /* Instant, not smooth — a smooth-scroll animation racing the (now
+         killed, but only just) track animation was enough to wedge the
+         page under automated testing. Not worth the risk for a page-flip. */
+      strip.scrollTo({ left: sign * p * pageWidth(), behavior: 'auto' });
+      paint(); // scrollLeft is already updated (instant scroll) — no need to wait for the scroll event
+    }
+
+    build();
+    prev.addEventListener('click', function(){ goTo(currentPage() - 1); });
+    next.addEventListener('click', function(){ goTo(currentPage() + 1); });
+    dotsEl.addEventListener('click', function(e){
+      var b = e.target.closest('button'); if(!b) return;
+      goTo([].indexOf.call(dotsEl.children, b));
+    });
+
+    var raf=null;
+    strip.addEventListener('scroll', function(){
+      if(raf) return;
+      raf = requestAnimationFrame(function(){ raf=null; paint(); });
+    }, {passive:true});
+
+    var rt;
+    addEventListener('resize', function(){
+      clearTimeout(rt); rt = setTimeout(build, 200);
+    });
   }
 
   function cross(){

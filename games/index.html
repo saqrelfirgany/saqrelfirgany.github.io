@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@300;400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/shell.css?v=20260812a">
+<link rel="stylesheet" href="/assets/shell.css?v=20260812b">
 </head>
 <body>
 
@@ -29,7 +29,12 @@
       <p class="lead" data-p="intro"></p>
       <div class="hstats" id="hstats"></div>
     </div>
-    <div class="strip"><div class="track" id="track"></div></div>
+    <div class="stripwrap">
+      <button class="sarrow prev" id="sprev" type="button"><i class="sarr">&#8249;</i></button>
+      <div class="strip" id="strip"><div class="track" id="track"></div></div>
+      <button class="sarrow next" id="snext" type="button"><i class="sarr">&#8250;</i></button>
+    </div>
+    <div class="sdots" id="sdots"></div>
   </section>
   <div id="games"></div>
   <section class="cross"><div class="wrap"><div class="crossbox" id="crossbox"></div></div></section>
@@ -37,7 +42,7 @@
 
 <footer id="foot"></footer>
 
-<script src="/assets/shell.js?v=20260812a"></script>
+<script src="/assets/shell.js?v=20260812b"></script>
 <script src="data.js?v=20260807a"></script>
 <script>
 (function(){

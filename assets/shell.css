@@ -256,7 +256,7 @@ html[dir=rtl] .door .go .arr{transform:scaleX(-1)}
    the marquee strip — full-bleed, runs past both edges of the screen
    ------------------------------------------------------------------ */
 .strip{margin-top:clamp(34px,5vw,58px);overflow-x:auto;overflow-y:hidden;padding-block:6px;
-       scrollbar-width:thin;
+       scrollbar-width:thin;overflow-anchor:none;
        -webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);
        mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}
 .strip::-webkit-scrollbar{height:5px}
@@ -271,6 +271,32 @@ html[dir=rtl] .track{animation-name:slide-rtl}
    wheels the strip (.held, set in shell.js) — the row itself scrolls like
    .gal does, instead of only ever moving on its own. */
 .strip:hover .track,.strip:focus-within .track,.strip.held .track{animation-play-state:paused}
+
+/* arrows either side of the strip + page dots underneath, added 2026-08-12
+   so the manual scroll from above has a discoverable control, not just a
+   hidden touch/wheel affordance. Both are built in shell.js — .stripwrap
+   only needs to exist in the HTML so the arrows have something to sit on. */
+.stripwrap{position:relative}
+.sarrow{position:absolute;top:50%;transform:translateY(-50%);z-index:2;
+        width:40px;height:40px;border-radius:50%;padding:0;cursor:pointer;
+        display:grid;place-items:center;background:var(--paper);
+        border:1px solid var(--line);color:var(--ink);
+        box-shadow:0 10px 24px -12px rgba(15,23,32,.28);transition:.25s var(--ease)}
+.sarrow:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+.sarrow:disabled{opacity:.3;pointer-events:none}
+.sarrow .sarr{font-size:22px;line-height:1;margin-top:-2px}
+.sarrow.prev{left:2px}
+.sarrow.next{right:2px}
+html[dir=rtl] .sarrow.prev{left:auto;right:2px}
+html[dir=rtl] .sarrow.next{right:auto;left:2px}
+html[dir=rtl] .sarrow .sarr{display:inline-block;transform:scaleX(-1)}
+@media (max-width:720px){.sarrow{display:none}}
+
+.sdots{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;
+       margin-top:16px}
+.sdots button{width:7px;height:7px;padding:0;border-radius:50%;border:0;
+              background:var(--line);cursor:pointer;transition:.25s var(--ease)}
+.sdots button.on{width:20px;border-radius:100px;background:var(--accent)}
 
 .mcard{
   flex:none;width:clamp(272px,25vw,310px);text-align:start;
