@@ -88,8 +88,8 @@ window.PAGE = {
   cross:{
     eyebrow:{en:"The other half", ar:"النصف الآخر"},
     h:{en:"The apps that shipped", ar:"التطبيقات التي نزلت"},
-    p:{en:"The games are the experiment. The catalogue is the work that shipped. 18+ apps across five countries. Each one carries the hard part and a store link.",
-       ar:"الألعاب هي التجربة. والكتالوج هو العمل الذي نزل. أكثر من ١٨ تطبيقاً في ٥ دول. مع كل تطبيق أصعب جزء فيه ورابط المتجر."},
+    p:{en:"The games are the experiment. The catalogue is the work that shipped. 20+ live apps and 10+ internal systems across 6+ countries. Each one carries the hard part and a store link.",
+       ar:"الألعاب هي التجربة. والكتالوج هو العمل الذي نزل. أكثر من ٢٠ تطبيقاً يعمل وأكثر من ١٠ أنظمة داخلية في أكثر من ٦ دول. مع كل تطبيق أصعب جزء فيه ورابط المتجر."},
     btn:{en:"Open the app catalogue", ar:"افتح كتالوج التطبيقات"},
     to:"apps"
   }
