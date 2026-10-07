@@ -57,21 +57,7 @@ window.GAMES = [
   links:[{t:"run",u:"https://saqrelfirgany.github.io/topple/"},
          {t:"code",u:"https://github.com/saqrelfirgany/topple"}],
   icon:"",
-  shots:["shots/topple-1.jpg","shots/topple-3.jpg","shots/topple-2.jpg","shots/topple-4.jpg"] },
-
-{ key:"next", year:"—", flag:"🛠️",
-  name:{en:"The next one", ar:"اللعبة القادمة"},
-  role:{en:"Still being built", ar:"لسه بنبنيها"},
-  one:{en:"Next game for players in the browser", ar:"لعبة قادمة للاعبين في المتصفح"},
-  tags:{en:["Flutter","Open on GitHub"], ar:["Flutter","الكود مفتوح على GitHub"]},
-  stats:[],
-  body:{en:"You follow each commit while the game is still being written. The code is open on GitHub from day one.",
-        ar:"تشوف كل commit ونحن نكتب اللعبة. الكود مفتوح على GitHub من اليوم الأول."},
-  built:{en:[], ar:[]},
-  hard:{en:"", ar:""},
-  tech:["Flutter"],
-  links:[{t:"code",u:"https://github.com/saqrelfirgany"}],
-  icon:"", shots:[], soon:true }
+  shots:["shots/topple-1.jpg","shots/topple-3.jpg","shots/topple-2.jpg","shots/topple-4.jpg"] }
 ];
 
 /* Text specific to the games page. The shared text is in /assets/shell.js. */
